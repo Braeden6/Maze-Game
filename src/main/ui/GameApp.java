@@ -4,31 +4,41 @@ import java.util.Scanner;
 
 //This is the main game application
 public class GameApp {
+    private Scanner input;
+
+    // EFFECTS: initializes scanner and starts main loop
+    public GameApp() {
+        input = new Scanner(System.in);
+        runGameApp();
+    }
+
+
+    // MODIFIES: this
+    // EFFECTS: main loop the runs the game
+    private void runGameApp() {
+        boolean keepGoing = true;
+        String command = null;
+
+        while (keepGoing) {
+            System.out.println("Enter Command:");
+            command = input.next();
+
+            if (command.equals("q")) {
+                keepGoing = false;
+            }
+        }
+        System.out.println("Game has been Stopped");
+    }
 }
 
 
-
-
-
 /*
-
-package ca.ubc.cpsc210.bank.ui;
-
-        import ca.ubc.cpsc210.bank.model.Account;
-
-        import java.util.Scanner;
-
 
 // Bank teller application
 public class TellerApp {
     private Account cheq;
     private Account sav;
-    private Scanner input;
 
-    // EFFECTS: runs the teller application
-    public TellerApp() {
-        runTeller();
-    }
 
     // MODIFIES: this
     // EFFECTS: processes user input
