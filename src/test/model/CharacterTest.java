@@ -12,8 +12,6 @@ class CharacterTest {
     private ArrayList<Key> testInventory;
     private Key key1;
     private Key key2;
-    private Key key3;
-    private Key key4;
 
     @BeforeEach
     void runBefore() {
@@ -25,8 +23,8 @@ class CharacterTest {
     void testInventory() {
         key1 = new Key(400, 200, "key1");
         key2 = new Key(304, 405, "key2");
-        key3 = new Key(201, 900, "key3");
-        key4 = new Key(201, 900, "key4");
+        Key key3 = new Key(201, 900, "key3");
+        Key key4 = new Key(201, 900, "key4");
 
 
         //add first item

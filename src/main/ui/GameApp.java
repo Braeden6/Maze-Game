@@ -17,7 +17,7 @@ public class GameApp {
     // EFFECTS: main loop the runs the game
     private void runGameApp() {
         boolean keepGoing = true;
-        String command = null;
+        String command;
 
         while (keepGoing) {
             System.out.println("Enter Command:");

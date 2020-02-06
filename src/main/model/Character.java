@@ -50,20 +50,14 @@ public class Character {
     // EFFECTS: test whether movement will cause character move out of bounds. Moves character by MOVEMENT_DISTANCE
     // or to the edge and return new location
     private int moveMaximum(int currentLocation, int maxValue) {
-        if (currentLocation + MOVEMENT_DISTANCE > maxValue) {
-            return maxValue;
-        }
-        return currentLocation + MOVEMENT_DISTANCE;
+        return Math.min(currentLocation + MOVEMENT_DISTANCE, maxValue);
     }
 
     // MODIFIES: this
     // EFFECTS: test whether movement will cause character move out of bounds. Moves character by MOVEMENT_DISTANCE
     // or to the edge and return new location
     private int moveMinimum(int currentLocation) {
-        if (currentLocation - MOVEMENT_DISTANCE < 0) {
-            return 0;
-        }
-        return currentLocation - MOVEMENT_DISTANCE;
+        return Math.max(currentLocation - MOVEMENT_DISTANCE, 0);
     }
 
     // MODIFIES: this
