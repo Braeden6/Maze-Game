@@ -1,8 +1,14 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Character {
-    static int SCREEN_SIZE_WIDTH = 1000;
-    static int SCREEN_SIZE_HEIGHT = 1000;
+    private static int SCREEN_SIZE_WIDTH = 1000;
+    private static int SCREEN_SIZE_HEIGHT = 1000;
+    private static int MOVEMENT_DISTANCE = 10;
+    private static int MAX_SIZE_OF_INVENTORY = 3;
+
+    ArrayList<Key> inventory;
     String name;
     int locationX;
     int locationY;
@@ -10,88 +16,103 @@ public class Character {
 
     // EFFECTS: Set character name to the given name and places him at the starting location
     public Character(String name) {
+        inventory = new ArrayList<>();
         this.name = name;
         locationX = 0;
         locationY = SCREEN_SIZE_HEIGHT / 2;
     }
-}
 
-
-/*
-// Represents an account having an id, owner name and balance (in dollars)
-public class Account {
-    private static int nextAccountId = 1;  // tracks id of next account created
-    private int id;                        // account id
-    private String name;                   // the account owner name
-    private double balance;                // the current balance of the account
-
-    */
-/*
-     * REQUIRES: accountName has a non-zero length
-     * EFFECTS: name on account is set to accountName; account id is a
-     *          positive integer not assigned to any other account;
-     *          if initialBalance >= 0 then balance on account is set to
-     *          initialBalance, otherwise balance is zero.
-     *//*
-
-    public Account(String accountName, double initialBalance) {
-        id = nextAccountId++;
-        name = accountName;
-        if (initialBalance >= 0) {
-            balance = initialBalance;
-        } else {
-            balance = 0;
+    // MODIFIES: this
+    // EFFECTS: moves character by MOVEMENT_DISTANCE in direction; however, will not move to negatives or
+    //  above SCREEN_SIZE_WIDTH and SCREEN_SIZE_HEIGHT
+    // -w is up on the screen
+    // -s is down on the screen
+    // -a is left on the screen
+    // -d is right on the screen
+    public void moveCharacter(String command) {
+        switch (command) {
+            case "w":
+                locationY = moveMaximum(locationY,SCREEN_SIZE_HEIGHT);
+                break;
+            case "s":
+                locationY = moveMinimum(locationY);
+                break;
+            case "a":
+                locationX = moveMinimum(locationX);
+                break;
+            case "d":
+                locationX = moveMaximum(locationX,SCREEN_SIZE_WIDTH);
+                break;
         }
     }
 
-    public int getId() {
-        return id;
+    // MODIFIES: this
+    // EFFECTS: test whether movement will cause character move out of bounds. Moves character by MOVEMENT_DISTANCE
+    // or to the edge and return new location
+    private int moveMaximum(int currentLocation, int maxValue) {
+        if (currentLocation + MOVEMENT_DISTANCE > maxValue) {
+            return maxValue;
+        }
+        return currentLocation + MOVEMENT_DISTANCE;
     }
 
-    public String getName() {
-        return name;
+    // MODIFIES: this
+    // EFFECTS: test whether movement will cause character move out of bounds. Moves character by MOVEMENT_DISTANCE
+    // or to the edge and return new location
+    private int moveMinimum(int currentLocation) {
+        if (currentLocation - MOVEMENT_DISTANCE < 0) {
+            return 0;
+        }
+        return currentLocation - MOVEMENT_DISTANCE;
     }
 
-    public double getBalance() {
-        return balance;
+    // MODIFIES: this
+    // EFFECTS: checks if inventory is full and if it can pick up the item. If both are true it add item
+    // to inventory and returns true as if it had picked up item
+    public boolean isPickedUpItem(Key item) {
+        if (!isInventoryFull() && item.isAbleToPickUp(locationX,locationY)) {
+            item.pickUpItem();
+            inventory.add(item);
+            return true;
+        }
+        return false;
     }
 
-    */
-/*
-     * REQUIRES: amount >= 0
-     * MODIFIES: this
-     * EFFECTS: amount is added to balance and updated
-     * 			balance is returned
-     *//*
-
-    public double deposit(double amount) {
-        balance = balance + amount;
-        return balance;
+    // EFFECTS: check if inventory is full
+    private boolean isInventoryFull() {
+        return inventory.size() >= MAX_SIZE_OF_INVENTORY;
     }
 
-    */
-/*
-     * REQUIRES: amount >= 0 and amount <= getBalance()
-     * MODIFIES: this
-     * EFFECTS: amount is withdrawn from account and updated
-     * 		    balance is returned
-     *//*
-
-    public double withdraw(double amount) {
-        balance = balance - amount;
-        return balance;
+    // EFFECTS: return character locationX
+    public int getLocationX() {
+        return locationX;
     }
 
-    */
-/*
-     * EFFECTS: returns a string representation of account
-     *//*
+    // EFFECTS: return character locationX
+    public int getLocationY() {
+        return locationY;
+    }
 
-    @Override
-    public String toString() {
-        String balanceStr = String.format("%.2f", balance);  // get balance to 2 decimal places as a string
-        return "[ id = " + id + ", name = " + name + ", "
-                + "balance = $" + balanceStr + "]";
+    // EFFECTS: returns list of items in inventory
+    public ArrayList<Key> getInventory() {
+        return inventory;
+    }
+
+    // REQUIRES: 0 <= locationX and locationY <= SCREEN_SIZE
+    // MODIFIES: this
+    // EFFECTS: set new location of character
+    public void setCharacterLocation(int locationX, int locationY) {
+        this.locationX = locationX;
+        this.locationY = locationY;
+    }
+
+    // REQUIRES: index must have item in the list position
+    // MODIFIES: this
+    // EFFECTS: removes item from inventory, marks item as dropped, and changes location of item as character's current
+    public Key dropItem(int index) {
+        Key droppedItem = inventory.get(index);
+        inventory.remove(index);
+        droppedItem.dropItem(locationX,locationY);
+        return droppedItem;
     }
 }
-*/

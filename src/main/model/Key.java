@@ -3,19 +3,26 @@ package model;
 //Key is an item you can find in the maze to open stuff
 public class Key {
     private static int REACH = 5; // 5 is a randomly selected number, might need to be updated
+
+    private String itemName;
     private int locationX;
     private int locationY;
     private boolean pickedUp;
 
-    public Key(int locationX, int locationY) {
+    public Key(int locationX, int locationY, String itemName) {
+        this.itemName = itemName;
         this.locationX = locationX;
         this.locationY = locationY;
         pickedUp = false;
     }
 
+    // EFFECTS: returns name of item
+    public String getItemName() {
+        return itemName;
+    }
 
     // EFFECTS: returns true if character location can pick up item
-    public boolean isPickup(int characterLocationX, int characterLocationY) {
+    public boolean isAbleToPickUp(int characterLocationX, int characterLocationY) {
         return isWithinBounds(characterLocationX, locationX) && isWithinBounds(characterLocationY, locationY);
     }
 

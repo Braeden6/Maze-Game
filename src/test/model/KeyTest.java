@@ -6,20 +6,21 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class KeyTest {
-    Key testKey;
+    private Key testKey;
 
     @BeforeEach
     void runBefore() {
-        testKey = new Key( 100, 200);
+        testKey = new Key( 100, 200, "testKey");
     }
 
     @Test
     void testisPickUp() {
-        assertFalse(testKey.isPickup(106,206));
-        assertFalse(testKey.isPickup(94,194));
-        assertFalse(testKey.isPickup(95,194));
-        assertFalse(testKey.isPickup(94,195));
-        assertTrue(testKey.isPickup(95,195));
+        assertEquals("testKey", testKey.getItemName());
+        assertFalse(testKey.isAbleToPickUp(106,206));
+        assertFalse(testKey.isAbleToPickUp(94,194));
+        assertFalse(testKey.isAbleToPickUp(95,194));
+        assertFalse(testKey.isAbleToPickUp(94,195));
+        assertTrue(testKey.isAbleToPickUp(95,195));
     }
 
     @Test
