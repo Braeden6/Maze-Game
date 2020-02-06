@@ -22,6 +22,7 @@ public class Character {
         locationY = SCREEN_SIZE_HEIGHT / 2;
     }
 
+    // REQUIRES: command must be w, a, s, or d
     // MODIFIES: this
     // EFFECTS: moves character by MOVEMENT_DISTANCE in direction; however, will not move to negatives or
     //  above SCREEN_SIZE_WIDTH and SCREEN_SIZE_HEIGHT
@@ -40,7 +41,7 @@ public class Character {
             case "a":
                 locationX = moveMinimum(locationX);
                 break;
-            case "d":
+            default:
                 locationX = moveMaximum(locationX,SCREEN_SIZE_WIDTH);
                 break;
         }
