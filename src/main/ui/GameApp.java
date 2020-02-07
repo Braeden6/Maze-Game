@@ -51,12 +51,12 @@ public class GameApp {
         if (command.equals("w") | command.equals("s") | command.equals("a") | command.equals("d")) {
             mainCharacter.moveCharacter(command);
         } else if (command.equals("t")) {
+            System.out.println("Drop Item");
+        } else if (command.equals("g")) {
             isPickedUp = mainCharacter.isPickedUpItem(onFloorKeys);
             if (isPickedUp) {
                 System.out.println("A key was picked up");
             }
-        } else if (command.equals("g")) {
-            System.out.println("Pickup item");
         }
     }
 
@@ -76,7 +76,7 @@ public class GameApp {
 
     // EFFECTS: display main character name and location and display all keys on the floor
     private void displayMap() {
-        String name = mainCharacter.getCharaceterName();
+        String name = mainCharacter.getCharacterName();
         int locationX = mainCharacter.getLocationX();
         int locationY = mainCharacter.getLocationY();
         System.out.println(name + " is at" + " X: " + locationX + " Y: " + locationY);

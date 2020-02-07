@@ -16,13 +16,14 @@ class CharacterTest {
 
     @BeforeEach
     void runBefore() {
-        testCharacter = new Character("Bod");
+        testCharacter = new Character("Bob");
         testInventory = new ArrayList<>();
         testFloor = new ArrayList<>();
     }
 
     @Test
     void testInventory() {
+        assertEquals("Bob",testCharacter.getCharacterName());
         key1 = new Key(400, 200, "key1");
         key2 = new Key(304, 405, "key2");
         testFloor.add(key1);

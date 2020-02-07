@@ -94,7 +94,7 @@ public class Character {
     }
 
     // EFFECTS: returns character name
-    public String getCharaceterName() {
+    public String getCharacterName() {
         return name;
     }
 
