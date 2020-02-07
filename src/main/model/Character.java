@@ -70,7 +70,7 @@ public class Character {
                 if (k.isAbleToPickUp(locationX,locationY)) {
                     k.pickUpItem();
                     inventory.add(k);
-                    itemOnFloor.remove(itemOnFloor.indexOf(k));
+                    itemOnFloor.remove(k);
                     return true;
                 }
             }

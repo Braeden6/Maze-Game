@@ -47,18 +47,36 @@ public class GameApp {
     // - t will drop first item in inventory
     // - g will pick up item if possible
     private void doAction(String command) {
-        boolean isPickedUp = false;
         if (command.equals("w") | command.equals("s") | command.equals("a") | command.equals("d")) {
             mainCharacter.moveCharacter(command);
         } else if (command.equals("t")) {
-            System.out.println("Drop Item");
+            dropItem();
         } else if (command.equals("g")) {
-            isPickedUp = mainCharacter.isPickedUpItem(onFloorKeys);
-            if (isPickedUp) {
-                System.out.println("A key was picked up");
-            }
+            pickUpItem();
         }
     }
+
+    // MODIFIES: this
+    // EFFECTS: if character inventory is not empty then first item in inventory will be dropped
+    void dropItem() {
+        if (!mainCharacter.getInventory().isEmpty()) {
+            System.out.println("Dropping first key");
+            onFloorKeys.add(mainCharacter.dropItem(0));
+        } else {
+            System.out.println("Inventory is currently empty, can not drop anything");
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: picks up item if one is close enough and inventory of character is not full
+    void pickUpItem() {
+        if (mainCharacter.isPickedUpItem(onFloorKeys)) {
+            System.out.println("A key was picked up");
+        } else {
+            System.out.println("Unable to pick up any key");
+        }
+    }
+
 
     // MODIFIES: this
     // EFFECTS: creates keys at random locations and generates main character based off console input name
@@ -80,20 +98,29 @@ public class GameApp {
         int locationX = mainCharacter.getLocationX();
         int locationY = mainCharacter.getLocationY();
         System.out.println(name + " is at" + " X: " + locationX + " Y: " + locationY);
+        if (!mainCharacter.getInventory().isEmpty()) {
+            System.out.println("Inventory:");
+            displayKey(mainCharacter.getInventory());
+        }
         System.out.println("Key locations:");
-        displayKey();
+        displayKey(onFloorKeys);
     }
 
-    //EFFECTS: displays key name then location x and y
-    private void displayKey() {
+    //EFFECTS: displays key's names in given list. If they are the ground then the location will be displayed also.
+    private void displayKey(ArrayList<Key> listOfKeys) {
         String name;
         int locationX;
         int locationY;
-        for (Key k : onFloorKeys) {
+        for (Key k : listOfKeys) {
             name  = k.getItemName();
             locationX = k.getLocationX();
             locationY = k.getLocationY();
-            System.out.println(name + " X: " + locationX + " Y: " + locationY);
+            if (k.isPickedUp()) {
+                System.out.println("Slot " + (listOfKeys.indexOf(k) + 1) + "has " + name);
+            } else {
+                System.out.println(name + " X: " + locationX + " Y: " + locationY);
+            }
+
         }
     }
 }
