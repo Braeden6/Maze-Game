@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CharacterTest {
     private Character testCharacter;
     private ArrayList<Key> testInventory;
+    private ArrayList<Key> testFloor;
     private Key key1;
     private Key key2;
 
@@ -17,49 +18,61 @@ class CharacterTest {
     void runBefore() {
         testCharacter = new Character("Bod");
         testInventory = new ArrayList<>();
+        testFloor = new ArrayList<>();
     }
 
     @Test
     void testInventory() {
         key1 = new Key(400, 200, "key1");
         key2 = new Key(304, 405, "key2");
-        Key key3 = new Key(201, 900, "key3");
-        Key key4 = new Key(201, 900, "key4");
+        testFloor.add(key1);
+        testFloor.add(key2);
+        testFloor.add(new Key(201, 900, "key3"));
+        testFloor.add(new Key(201, 900, "key4"));
 
 
         //add first item
         testCharacter.setCharacterLocation(400, 200);
-        assertTrue(testCharacter.isPickedUpItem(key1));
+        assertTrue(testCharacter.isPickedUpItem(testFloor));
         testInventory.add(key1);
         assertEquals(testInventory, testCharacter.getInventory());
 
         // add second item
         testCharacter.setCharacterLocation(300, 401);
-        assertTrue(testCharacter.isPickedUpItem(key2));
-        assertFalse(testCharacter.isPickedUpItem(key3));
+        assertTrue(testCharacter.isPickedUpItem(testFloor));
         testInventory.add(key2);
         assertEquals(testInventory, testCharacter.getInventory());
 
         // add third and last item
-        testCharacter.setCharacterLocation(205, 899);
-        assertFalse(testCharacter.isPickedUpItem(key2));
-        assertTrue(testCharacter.isPickedUpItem(key3));
-        testInventory.add(key3);
-        assertEquals(testInventory, testCharacter.getInventory());
+        testCharacter.setCharacterLocation(210, 899);
+        assertFalse(testCharacter.isPickedUpItem(testFloor));
+        testCharacter.setCharacterLocation(202, 899);
+        assertTrue(testCharacter.isPickedUpItem(testFloor));
 
         // add past inventory max
-        assertFalse(testCharacter.isPickedUpItem(key4));
-        assertEquals(testInventory, testCharacter.getInventory());
+        assertFalse(testCharacter.isPickedUpItem(testFloor));
     }
 
     @Test
     void testDropItem() {
+        ArrayList<Key> testFloorRemoved = new ArrayList<>();
         key1 = new Key(400, 200, "key1");
         key2 = new Key(304, 405, "key2");
+        testFloor.add(key1);
+        testFloor.add(key2);
+        testFloor.add(key2);
+        testFloorRemoved.add(key1);
+        testFloorRemoved.add(key2);
+        testFloorRemoved.add(key2);
         testCharacter.setCharacterLocation(400, 200);
-        assertTrue(testCharacter.isPickedUpItem(key1));
+        assertTrue(testCharacter.isPickedUpItem(testFloor));
+        testFloorRemoved.remove(0);
+        assertEquals(testFloor, testFloorRemoved);
+
         testCharacter.setCharacterLocation(299, 400);
-        assertTrue(testCharacter.isPickedUpItem(key2));
+        assertTrue(testCharacter.isPickedUpItem(testFloor));
+        testFloorRemoved.remove(0);
+        assertEquals(testFloor, testFloorRemoved);
 
         testCharacter.setCharacterLocation(900, 950);
         assertEquals(key1,testCharacter.dropItem(0));

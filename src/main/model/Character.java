@@ -64,11 +64,16 @@ public class Character {
     // MODIFIES: this
     // EFFECTS: checks if inventory is full and if it can pick up the item. If both are true it add item
     // to inventory and returns true as if it had picked up item
-    public boolean isPickedUpItem(Key item) {
-        if (!isInventoryFull() && item.isAbleToPickUp(locationX,locationY)) {
-            item.pickUpItem();
-            inventory.add(item);
-            return true;
+    public boolean isPickedUpItem(ArrayList<Key> itemOnFloor) {
+        if (!isInventoryFull()) {
+            for (Key k : itemOnFloor) {
+                if (k.isAbleToPickUp(locationX,locationY)) {
+                    k.pickUpItem();
+                    inventory.add(k);
+                    itemOnFloor.remove(itemOnFloor.indexOf(k));
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -86,6 +91,11 @@ public class Character {
     // EFFECTS: return character locationX
     public int getLocationY() {
         return locationY;
+    }
+
+    // EFFECTS: returns character name
+    public String getCharaceterName() {
+        return name;
     }
 
     // EFFECTS: returns list of items in inventory
