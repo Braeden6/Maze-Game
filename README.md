@@ -22,8 +22,13 @@ Things this game will hopefully include:
 - A maze to go through
 
 
-## **Phase 1 User Stories**
+## **User Stories**
+### Phase 1
 - As a user, I want a map that generates a  random list of keys that I can add to
 - As a user, I want to be able to move my character around with *wasd* keys
 - As a user, I want to be able to pick these items up if I get close enough to them
 - As a user, I want some sort of inventory in which I can view my items
+### Phase 2 
+- As a user, I want to be able to save my current game, including character (inventory, location and name) 
+  and map (item locations).
+- As a user, I want to be able to resume a game that I have saved.
