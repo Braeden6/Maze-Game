@@ -1,6 +1,7 @@
 package ui;
 
 import model.Character;
+import model.ItemOnGround;
 import model.Key;
 
 import java.util.ArrayList;
@@ -13,7 +14,8 @@ public class GameApp {
 
     private Scanner input;
     private Character mainCharacter;
-    private ArrayList<Key> onFloorKeys;
+    //private ArrayList<Key> onFloorKeys;
+    private ItemOnGround onFloorKeys;
 
     // EFFECTS: initializes scanner and starts main loop
     public GameApp() {
@@ -45,6 +47,7 @@ public class GameApp {
     // - g will pick up item if possible
     // - l will reprint locations of all the keys on the floor
     // - i will display inventory if not empty
+    // - k will add a key at a random location on the map
     private void doAction(String command) {
         command = command.toLowerCase();
         if (command.equals("w") | command.equals("s") | command.equals("a") | command.equals("d")) {
@@ -55,13 +58,16 @@ public class GameApp {
         } else if (command.equals("g")) {
             pickUpItem();
         } else if (command.equals("l")) {
-            displayKey(onFloorKeys);
+            displayKey(onFloorKeys.getOnFloorKeys());
         } else if (command.equals("i")) {
             if (!mainCharacter.getInventory().isEmpty()) {
                 displayKey(mainCharacter.getInventory());
             } else {
                 System.out.println("Inventory is Empty");
             }
+        } else if (command.equals("k")) {
+            addKeys(1);
+            displayKey(onFloorKeys.getOnFloorKeys());
         }
     }
 
@@ -70,7 +76,7 @@ public class GameApp {
     void dropItem() {
         if (!mainCharacter.getInventory().isEmpty()) {
             System.out.println("Dropping first key");
-            onFloorKeys.add(mainCharacter.dropItem(0));
+            onFloorKeys.addGivenKey(mainCharacter.dropItem(0));
         } else {
             System.out.println("Inventory is currently empty, can not drop anything");
         }
@@ -79,7 +85,7 @@ public class GameApp {
     // MODIFIES: this
     // EFFECTS: picks up item if one is close enough and inventory of character is not full
     void pickUpItem() {
-        if (mainCharacter.isPickedUpItem(onFloorKeys)) {
+        if (mainCharacter.isPickedUpItem(onFloorKeys.getOnFloorKeys())) {
             System.out.println("A key was picked up");
         } else {
             System.out.println("Unable to pick up any key");
@@ -92,17 +98,25 @@ public class GameApp {
     // then prints out input options
     private void generateStartOfGame() {
         input = new Scanner(System.in);
-        Random rand = new Random();
         System.out.println("Enter the name of your character");
         String name = input.next();
         mainCharacter = new Character(name);
         displayCharacter();
-        onFloorKeys = new ArrayList<>();
-        for (int i = 1; i <= NUMBER_OF_KEYS; i++) {
-            onFloorKeys.add(new Key(rand.nextInt(1000),rand.nextInt(1000),"key" + i));
-        }
-        displayKey(onFloorKeys);
+        onFloorKeys = new ItemOnGround();
+        addKeys(NUMBER_OF_KEYS);
+        displayKey(onFloorKeys.getOnFloorKeys());
         displayInputOptions();
+    }
+
+    // REQUIRES: amount > 0
+    // EFFECTS: adds amount of keys to the ground at random locations
+    private void addKeys(int amount) {
+        Random rand = new Random();
+        String keyName;
+        for (int i = 1; i <= amount; i++) {
+            keyName = "key" + (onFloorKeys.getOnFloorKeys().size() + 1);
+            onFloorKeys.addGivenKey(new Key(rand.nextInt(1000),rand.nextInt(1000),keyName));
+        }
     }
 
     // EFFECTS: displays all possible input option while playing the game
@@ -114,6 +128,7 @@ public class GameApp {
         System.out.println("- g to try to pick up item");
         System.out.println("- l to display locations of the keys");
         System.out.println("- i to display inventory");
+        System.out.println("- k will add another key");
     }
 
     // EFFECTS: display main character name and location
