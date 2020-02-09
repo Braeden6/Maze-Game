@@ -23,7 +23,7 @@ Things this game will hopefully include:
 
 
 ## **Phase 1 User Stories**
-- As a user, I want to be able to add an item that will be a in a set location on the map
+- As a user, I want a map that generates a list of items a random locations
 - As a user, I want to be able to move my character around with *wasd* keys
 - As a user, I want to be able to pick these items up if I get close enough to them
 - As a user, I want some sort of inventory in which I can view my items
