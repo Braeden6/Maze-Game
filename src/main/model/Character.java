@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+// This class is the main character that has an inventory and a move-able location
 public class Character {
     private static int SCREEN_SIZE_WIDTH = 1000;
     private static int SCREEN_SIZE_HEIGHT = 1000;

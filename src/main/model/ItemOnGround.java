@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+// this class is a list of items that are currently on the map ground
 public class ItemOnGround {
     private static int SCREEN_SIZE_WIDTH = 1000;
     private static int SCREEN_SIZE_HEIGHT = 1000;
