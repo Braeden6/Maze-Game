@@ -1,24 +1,27 @@
 package ui;
 
 import model.Character;
-import model.ItemOnGround;
+import model.GameMap;
 import model.Key;
+import model.Trap;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 
 //This is the main game application
-public class GameApp {
+public class GameConsoleInterface {
     private static int NUMBER_OF_KEYS = 4;
+    private static int NUMBER_OF_TRAPS = 4;
 
     private Scanner input;
     private Character mainCharacter;
-    //private ArrayList<Key> onFloorKeys;
-    private ItemOnGround onFloorKeys;
+    private GameMap mainGameMap;
+    Random rand;
 
     // EFFECTS: initializes scanner and starts main loop
-    public GameApp() {
+    public GameConsoleInterface() {
+        rand = new Random();
         runGameApp();
     }
 
@@ -30,12 +33,17 @@ public class GameApp {
         generateStartOfGame();
 
         while (keepGoing) {
-            command = input.next();
-
-            if (command.equals("q")) {
+            if (mainGameMap.isTrapSetOff()) {
+                System.out.println("You hit a trap");
                 keepGoing = false;
             } else {
-                doAction(command);
+                command = input.next();
+
+                if (command.equals("q")) {
+                    keepGoing = false;
+                } else {
+                    doAction(command);
+                }
             }
         }
         System.out.println("Game has been Stopped");
@@ -46,6 +54,7 @@ public class GameApp {
     // - t will drop first item in inventory
     // - g will pick up item if possible
     // - l will reprint locations of all the keys on the floor
+    // - o will reprint locations of all the traps on the floor
     // - i will display inventory if not empty
     // - k will add a key at a random location on the map
     private void doAction(String command) {
@@ -58,7 +67,7 @@ public class GameApp {
         } else if (command.equals("g")) {
             pickUpItem();
         } else if (command.equals("l")) {
-            displayKey(onFloorKeys.getOnFloorKeys());
+            displayKey(mainGameMap.getOnFloorKeys());
         } else if (command.equals("i")) {
             if (!mainCharacter.getInventory().isEmpty()) {
                 displayKey(mainCharacter.getInventory());
@@ -67,7 +76,9 @@ public class GameApp {
             }
         } else if (command.equals("k")) {
             addKeys(1);
-            displayKey(onFloorKeys.getOnFloorKeys());
+            displayKey(mainGameMap.getOnFloorKeys());
+        } else if (command.equals("o")) {
+            displayTraps();
         }
     }
 
@@ -76,7 +87,7 @@ public class GameApp {
     void dropItem() {
         if (!mainCharacter.getInventory().isEmpty()) {
             System.out.println("Dropping first key");
-            onFloorKeys.addGivenKey(mainCharacter.dropItem(0));
+            mainGameMap.addGivenKey(mainCharacter.dropItem(0));
         } else {
             System.out.println("Inventory is currently empty, can not drop anything");
         }
@@ -85,7 +96,7 @@ public class GameApp {
     // MODIFIES: this
     // EFFECTS: picks up item if one is close enough and inventory of character is not full
     void pickUpItem() {
-        if (mainCharacter.isPickedUpItem(onFloorKeys.getOnFloorKeys())) {
+        if (mainCharacter.isPickedUpItem(mainGameMap.getOnFloorKeys())) {
             System.out.println("A key was picked up");
         } else {
             System.out.println("Unable to pick up any key");
@@ -100,22 +111,30 @@ public class GameApp {
         input = new Scanner(System.in);
         System.out.println("Enter the name of your character");
         String name = input.next();
-        mainCharacter = new Character(name);
+        mainGameMap = new GameMap(name);
+        mainCharacter = mainGameMap.getMainCharacter();
         displayCharacter();
-        onFloorKeys = new ItemOnGround();
+        addTraps(NUMBER_OF_TRAPS);
         addKeys(NUMBER_OF_KEYS);
-        displayKey(onFloorKeys.getOnFloorKeys());
+        displayKey(mainGameMap.getOnFloorKeys());
         displayInputOptions();
     }
 
     // REQUIRES: amount > 0
     // EFFECTS: adds amount of keys to the ground at random locations
     private void addKeys(int amount) {
-        Random rand = new Random();
         String keyName;
         for (int i = 1; i <= amount; i++) {
-            keyName = "key" + (onFloorKeys.getOnFloorKeys().size() + 1);
-            onFloorKeys.addGivenKey(new Key(rand.nextInt(1000),rand.nextInt(1000),keyName));
+            keyName = "key" + (mainGameMap.getOnFloorKeys().size() + 1);
+            mainGameMap.addGivenKey(new Key(rand.nextInt(1000),rand.nextInt(1000),keyName));
+        }
+    }
+
+    // REQUIRES: amount > 0
+    // EFFECTS: adds amount of traps to the ground at random locations
+    private void addTraps(int amount) {
+        for (int i = 1; i <= amount; i++) {
+            mainGameMap.addGivenTrap(new Trap());
         }
     }
 
@@ -127,8 +146,20 @@ public class GameApp {
         System.out.println("- t to drop first item");
         System.out.println("- g to try to pick up item");
         System.out.println("- l to display locations of the keys");
+        System.out.println("- o to display locations of traps");
         System.out.println("- i to display inventory");
         System.out.println("- k will add another key");
+    }
+
+    // EFFECTS: display location of all traps
+    private void displayTraps() {
+        int x;
+        int y;
+        for (Trap t : mainGameMap.getOnFloorTraps()) {
+            x = t.getCenterX();
+            y = t.getCenterY();
+            System.out.println("Trap" + (mainGameMap.getOnFloorTraps().indexOf(t) + 1) + " X: " + x + " Y: " + y);
+        }
     }
 
     // EFFECTS: display main character name and location
