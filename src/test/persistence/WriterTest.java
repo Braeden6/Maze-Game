@@ -1,6 +1,7 @@
 package persistence;
 
 import model.*;
+import model.Character;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,12 +9,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.lang.Character;
-import java.util.List;
-import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class WriterTest {
@@ -40,38 +40,27 @@ class WriterTest {
     void testWriteMap() {
         testWriter.write(testMap);
         testWriter.close();
-    }
-}
-
-/*
-    void runBefore() throws FileNotFoundException, UnsupportedEncodingException {
-        testWriter = new Writer(new File(TEST_FILE));
-        chequing = new Account("Mae", 123.56);
-        savings = new Account("Jo", 435.23);
-    }
-
-    @Test
-    void testWriteAccounts() {
-        // save chequing and savings accounts to file
-
-        // now read them back in and verify that the accounts have the expected values
         try {
-            List<Account> accounts = Reader.readAccounts(new File(TEST_FILE));
-            Account chequing = accounts.get(0);
-            assertEquals(1, chequing.getId());
-            assertEquals("Mae", chequing.getName());
-            assertEquals(123.56, chequing.getBalance());
-
-            Account savings = accounts.get(1);
-            assertEquals(2, savings.getId());
-            assertEquals("Jo", savings.getName());
-            assertEquals(435.23, savings.getBalance());
-
-            // verify that ID of next account created is 3 (checks that nextAccountId was restored)
-            Account next = new Account("Chris", 0.00);
-            assertEquals(3, next.getId());
+            GameMap map = Reader.readMap(new File("./data/testMap.txt"));
+            Character character = map.getMainCharacter();
+            ArrayList<Trap> onFloorTraps = map.getOnFloorTraps();
+            ArrayList<Key> onFloorKeys = map.getOnFloorKeys();
+            ArrayList<Key> inventory = character.getInventory();
+            //test character info
+            assertEquals("Jeff", character.getCharacterName());
+            assertEquals(0,character.getLocationX());
+            assertEquals(500,character.getLocationY());
+            //test onFloorKeys
+            assertEquals("testKey1",onFloorKeys.get(0).getItemName());
+            assertEquals(100,onFloorKeys.get(0).getLocationX());
+            assertEquals(200,onFloorKeys.get(0).getLocationY());
+            assertFalse(onFloorKeys.get(0).isPickedUp());
+            assertEquals("testKey2",onFloorKeys.get(1).getItemName());
+            assertEquals(250,onFloorKeys.get(1).getLocationX());
+            assertEquals(900,onFloorKeys.get(1).getLocationY());
+            assertFalse(onFloorKeys.get(1).isPickedUp());
         } catch (IOException e) {
             fail("IOException should not have been thrown");
         }
     }
-}*/
+}

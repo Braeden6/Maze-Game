@@ -2,7 +2,7 @@ package model;
 
 //Key is an item you can find in the maze
 public class Key {
-    private static int REACH = 5; // 5 is a randomly selected number, might need to be updated
+    private static final int REACH = 5; // 5 is a randomly selected number, might need to be updated
 
     private String itemName;
     private int locationX;

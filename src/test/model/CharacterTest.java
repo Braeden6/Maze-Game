@@ -124,5 +124,13 @@ class CharacterTest {
         testCharacter.moveCharacter("a");
         assertEquals(0, testCharacter.getLocationX());
     }
+
+
+    @Test
+    void testSetLocation() {
+        testCharacter.setLocation(100,250);
+        assertEquals(100, testCharacter.getLocationX());
+        assertEquals(250, testCharacter.getLocationY());
+    }
 }
 

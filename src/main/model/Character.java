@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 // This class is the main character that has an inventory and a move-able location
 public class Character {
-    private static int SCREEN_SIZE_WIDTH = 1000;
-    private static int SCREEN_SIZE_HEIGHT = 1000;
-    private static int MOVEMENT_DISTANCE = 10;
-    private static int MAX_SIZE_OF_INVENTORY = 3;
+    private static final int MOVEMENT_DISTANCE = 10;
+    private static final int MAX_SIZE_OF_INVENTORY = 3;
 
     ArrayList<Key> inventory;
     String name;
@@ -20,7 +18,7 @@ public class Character {
         inventory = new ArrayList<>();
         this.name = name;
         locationX = 0;
-        locationY = SCREEN_SIZE_HEIGHT / 2;
+        locationY = GameMap.SCREEN_SIZE_HEIGHT / 2;
     }
 
     // EFFECTS: set location of main character
@@ -41,7 +39,7 @@ public class Character {
     public void moveCharacter(String command) {
         switch (command) {
             case "w":
-                locationY = moveMaximum(locationY,SCREEN_SIZE_HEIGHT);
+                locationY = moveMaximum(locationY,GameMap.SCREEN_SIZE_HEIGHT);
                 break;
             case "s":
                 locationY = moveMinimum(locationY);
@@ -50,7 +48,7 @@ public class Character {
                 locationX = moveMinimum(locationX);
                 break;
             default:
-                locationX = moveMaximum(locationX,SCREEN_SIZE_WIDTH);
+                locationX = moveMaximum(locationX,GameMap.SCREEN_SIZE_WIDTH);
                 break;
         }
     }

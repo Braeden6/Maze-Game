@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 // this class is a list of items that are currently on the map ground
 public class GameMap implements Saveable {
-    public static int SCREEN_SIZE_WIDTH = 1000;
-    public static int SCREEN_SIZE_HEIGHT = 1000;
-    public static int NUMBER_OF_KEYS = 4;
-    public static int NUMBER_OF_TRAPS = 4;
+    public static final int SCREEN_SIZE_WIDTH = 1000;
+    public static final int SCREEN_SIZE_HEIGHT = 1000;
+    public static final int NUMBER_OF_KEYS = 4;
+    public static final int NUMBER_OF_TRAPS = 4;
 
     private ArrayList<Key> onFloorKeys;
     private ArrayList<Trap> onFloorTraps;

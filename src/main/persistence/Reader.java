@@ -44,9 +44,7 @@ public class Reader {
             readInformationListDelimiter = splitString(line,LIST_DELIMITER);
             for (String line2 : readInformationListDelimiter) {
                 readInformationDelimiter = splitString(line2,DELIMITER);
-                for (String line3 : readInformationDelimiter) {
-                    readInformation.add(line3);
-                }
+                readInformation.addAll(readInformationDelimiter);
             }
             readInformation.add("/");
         }
@@ -90,7 +88,7 @@ public class Reader {
         String name;
         int locationX;
         int locationY;
-        while (components.get(0) != "/") {
+        while (!components.get(0).equals("/")) {
             name = getFirstItem(components);
             locationX = Integer.parseInt(getFirstItem(components));
             locationY =  Integer.parseInt(getFirstItem(components));
@@ -109,7 +107,7 @@ public class Reader {
         Trap createdTrap;
         int locationX;
         int locationY;
-        while (components.get(0) != "/") {
+        while (!components.get(0).equals("/")) {
             locationX = Integer.parseInt(getFirstItem(components));
             locationY =  Integer.parseInt(getFirstItem(components));
             createdTrap = new Trap();

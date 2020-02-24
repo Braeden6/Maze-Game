@@ -11,9 +11,11 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ReaderTest {
@@ -34,20 +36,20 @@ public class ReaderTest {
             assertEquals("key4",inventory.get(0).getItemName());
             assertEquals(435,inventory.get(0).getLocationX());
             assertEquals(675,inventory.get(0).getLocationY());
-            assertEquals(true,inventory.get(0).isPickedUp());
+            assertTrue(inventory.get(0).isPickedUp());
             assertEquals("key3",inventory.get(1).getItemName());
             assertEquals(1000,inventory.get(1).getLocationX());
             assertEquals(245,inventory.get(1).getLocationY());
-            assertEquals(true,inventory.get(1).isPickedUp());
+            assertTrue(inventory.get(1).isPickedUp());
             //test onFloorKeys
             assertEquals("key1",onFloorKeys.get(0).getItemName());
             assertEquals(333,onFloorKeys.get(0).getLocationX());
             assertEquals(234,onFloorKeys.get(0).getLocationY());
-            assertEquals(false,onFloorKeys.get(0).isPickedUp());
+            assertFalse(onFloorKeys.get(0).isPickedUp());
             assertEquals("key2",onFloorKeys.get(1).getItemName());
             assertEquals(250,onFloorKeys.get(1).getLocationX());
             assertEquals(876,onFloorKeys.get(1).getLocationY());
-            assertEquals(false,onFloorKeys.get(1).isPickedUp());
+            assertFalse(onFloorKeys.get(1).isPickedUp());
             //test onFloorTraps
             assertEquals(400,onFloorTraps.get(0).getCenterX());
             assertEquals(250,onFloorTraps.get(0).getCenterY());
@@ -74,11 +76,11 @@ public class ReaderTest {
             assertEquals("key1",onFloorKeys.get(0).getItemName());
             assertEquals(345,onFloorKeys.get(0).getLocationX());
             assertEquals(400,onFloorKeys.get(0).getLocationY());
-            assertEquals(false,onFloorKeys.get(0).isPickedUp());
+            assertFalse(onFloorKeys.get(0).isPickedUp());
             assertEquals("key2",onFloorKeys.get(1).getItemName());
             assertEquals(250,onFloorKeys.get(1).getLocationX());
             assertEquals(876,onFloorKeys.get(1).getLocationY());
-            assertEquals(false,onFloorKeys.get(1).isPickedUp());
+            assertFalse(onFloorKeys.get(1).isPickedUp());
             //test onFloorTraps
             assertEquals(400,onFloorTraps.get(0).getCenterX());
             assertEquals(250,onFloorTraps.get(0).getCenterY());
