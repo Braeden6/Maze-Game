@@ -23,6 +23,13 @@ public class Character {
         locationY = SCREEN_SIZE_HEIGHT / 2;
     }
 
+    // EFFECTS: set location of main character
+    // MODIFIES: this
+    public void setLocation(int locationX, int locationY) {
+        this.locationX = locationX;
+        this.locationY = locationY;
+    }
+
     // REQUIRES: command must be w, a, s, or d
     // MODIFIES: this
     // EFFECTS: moves character by MOVEMENT_DISTANCE in direction; however, will not move to negatives or

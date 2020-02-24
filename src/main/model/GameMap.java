@@ -1,11 +1,17 @@
 package model;
 
+import persistence.Reader;
+import persistence.Saveable;
+
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 // this class is a list of items that are currently on the map ground
-public class GameMap {
-    private static int SCREEN_SIZE_WIDTH = 1000;
-    private static int SCREEN_SIZE_HEIGHT = 1000;
+public class GameMap implements Saveable {
+    public static int SCREEN_SIZE_WIDTH = 1000;
+    public static int SCREEN_SIZE_HEIGHT = 1000;
+    public static int NUMBER_OF_KEYS = 4;
+    public static int NUMBER_OF_TRAPS = 4;
 
     private ArrayList<Key> onFloorKeys;
     private ArrayList<Trap> onFloorTraps;
@@ -74,5 +80,52 @@ public class GameMap {
             }
         }
         return false;
+    }
+
+    @Override
+    public void save(PrintWriter printWriter) {
+        saveCharacter(printWriter);
+        saveKeys(printWriter, onFloorKeys);
+        saveTraps(printWriter, onFloorTraps);
+    }
+
+    // MODIFIES: printWriter
+    // EFFECTS: writes the Character to printWriter
+    private void saveCharacter(PrintWriter printWriter) {
+        printWriter.print(mainCharacter.getCharacterName());
+        printWriter.print(Reader.DELIMITER);
+        printWriter.print(mainCharacter.getLocationX());
+        printWriter.print(Reader.DELIMITER);
+        printWriter.print(mainCharacter.getLocationY());
+        printWriter.print(Reader.LIST_DELIMITER);
+        saveKeys(printWriter, mainCharacter.getInventory());
+    }
+
+    // MODIFIES: printWriter
+    // EFFECTS: writes the Key list to printWriter
+    private void saveKeys(PrintWriter printWriter, ArrayList<Key> keys) {
+        for (Key k : keys) {
+            printWriter.print(k.getItemName());
+            printWriter.print(Reader.DELIMITER);
+            printWriter.print(k.getLocationX());
+            printWriter.print(Reader.DELIMITER);
+            printWriter.print(k.getLocationY());
+            printWriter.print(Reader.DELIMITER);
+            printWriter.print(k.isPickedUp());
+            printWriter.print(Reader.LIST_DELIMITER);
+        }
+        printWriter.print(Reader.CLASS_DELIMITER);
+    }
+
+    // MODIFIES: printWriter
+    // EFFECTS: writes the Key list to printWriter
+    private void saveTraps(PrintWriter printWriter, ArrayList<Trap> traps) {
+        for (Trap t : traps) {
+            printWriter.print(t.getCenterX());
+            printWriter.print(Reader.DELIMITER);
+            printWriter.print(t.getCenterY());
+            printWriter.print(Reader.LIST_DELIMITER);
+        }
+        printWriter.print(Reader.CLASS_DELIMITER);
     }
 }

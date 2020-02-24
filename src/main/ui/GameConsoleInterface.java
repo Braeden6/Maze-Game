@@ -11,8 +11,6 @@ import java.util.Random;
 
 //This is the main game application
 public class GameConsoleInterface {
-    private static int NUMBER_OF_KEYS = 4;
-    private static int NUMBER_OF_TRAPS = 4;
 
     private Scanner input;
     private Character mainCharacter;
@@ -114,8 +112,8 @@ public class GameConsoleInterface {
         mainGameMap = new GameMap(name);
         mainCharacter = mainGameMap.getMainCharacter();
         displayCharacter();
-        addTraps(NUMBER_OF_TRAPS);
-        addKeys(NUMBER_OF_KEYS);
+        addTraps(GameMap.NUMBER_OF_TRAPS);
+        addKeys(GameMap.NUMBER_OF_KEYS);
         displayKey(mainGameMap.getOnFloorKeys());
         displayInputOptions();
     }
@@ -194,3 +192,22 @@ public class GameConsoleInterface {
         }
     }
 }
+
+/*
+    // EFFECTS: saves state of chequing and savings accounts to ACCOUNTS_FILE
+    private void saveAccounts() {
+        try {
+            Writer writer = new Writer(new File(ACCOUNTS_FILE));
+            writer.write(cheq);
+            writer.write(sav);
+            writer.close();
+            System.out.println("Accounts saved to file " + ACCOUNTS_FILE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save accounts to " + ACCOUNTS_FILE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            // this is due to a programming error
+        }
+    }
+
+ */
