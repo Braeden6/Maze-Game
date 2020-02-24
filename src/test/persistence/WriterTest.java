@@ -24,7 +24,6 @@ class WriterTest {
 
     @BeforeEach
     void runBefore() throws FileNotFoundException, UnsupportedEncodingException {
-        String keyName;
         rand = new Random();
         testWriter = new Writer(new File(TEST_FILE));
         testMap = new GameMap("Jeff");
@@ -43,9 +42,7 @@ class WriterTest {
         try {
             GameMap map = Reader.readMap(new File("./data/testMap.txt"));
             Character character = map.getMainCharacter();
-            ArrayList<Trap> onFloorTraps = map.getOnFloorTraps();
             ArrayList<Key> onFloorKeys = map.getOnFloorKeys();
-            ArrayList<Key> inventory = character.getInventory();
             //test character info
             assertEquals("Jeff", character.getCharacterName());
             assertEquals(0,character.getLocationX());

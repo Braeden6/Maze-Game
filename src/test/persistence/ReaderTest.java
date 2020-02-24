@@ -67,7 +67,6 @@ public class ReaderTest {
             Character character = map.getMainCharacter();
             ArrayList<Trap> onFloorTraps = map.getOnFloorTraps();
             ArrayList<Key> onFloorKeys = map.getOnFloorKeys();
-            ArrayList<Key> inventory = character.getInventory();
             //test character info
             assertEquals("Fred", character.getCharacterName());
             assertEquals(1000,character.getLocationX());

@@ -13,11 +13,11 @@ import java.util.List;
 
 
 public class Reader {
-    //used to seperate num/string/etc...
+    //used to separate num/string/etc...
     public static final String DELIMITER = ",";
     //used at the end of a list
     public static final String LIST_DELIMITER = ";";
-    // used to seperate items list/ class
+    // used to separate items list/ class
     public static final String CLASS_DELIMITER = "\n";
 
 
@@ -35,7 +35,7 @@ public class Reader {
     }
 
     // EFFECTS: returns a list of accounts parsed from list of strings
-    // where each string contains data for one account
+    // where  string 1 == character string 2 == ground keys 3 == traps
     private static GameMap parseContent(List<String> fileContent) {
         ArrayList<String> readInformation = new ArrayList<>();
         ArrayList<String> readInformationListDelimiter;
@@ -57,11 +57,23 @@ public class Reader {
         return new ArrayList<>(Arrays.asList(splits));
     }
 
-    // REQUIRES: components has size 4 where element 0 represents the
-    // id of the next account to be constructed, element 1 represents
-    // the id, elements 2 represents the name and element 3 represents
-    // the balance of the account to be constructed
-    // EFFECTS: returns an account constructed from components
+    // REQUIRES: first component  is character info
+    //  (each index is separated by a DELIMITER)
+    //          - index 0 == name
+    //          - index 1 == locationX
+    //          - index 2 == locationY
+    //          - rest is the character inventory following the keys requirements
+    //          second component is onFloorKeys info
+    //          - index 0 == name
+    //          - index 1 == locationX
+    //          - index 2 == locationY
+    //          - index 3 == isPickedUp (which is false)
+    //          - 4-7/8-11/etc. are more keys
+    //          third component is onFloorTraps info
+    //          - index 0 == locationX
+    //          - index 1 == locationY
+    //          - 2-3/4-5/etc. are more traps
+    // EFFECTS: returns an GameMap constructed from components
     private static GameMap parseGame(ArrayList<String> components) {
         GameMap map = new GameMap(getFirstItem(components));
         int locationX = Integer.parseInt(getFirstItem(components));
