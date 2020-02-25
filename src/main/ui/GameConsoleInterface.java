@@ -4,7 +4,13 @@ import model.Character;
 import model.GameMap;
 import model.Key;
 import model.Trap;
+import persistence.Writer;
+import persistence.Reader;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
@@ -15,17 +21,18 @@ public class GameConsoleInterface {
     private Scanner input;
     private Character mainCharacter;
     private GameMap mainGameMap;
-    Random rand;
+    private Random rand;
 
     // EFFECTS: initializes scanner and starts main loop
-    public GameConsoleInterface() {
+    public GameConsoleInterface() throws FileNotFoundException, UnsupportedEncodingException {
+        input = new Scanner(System.in);
         rand = new Random();
         runGameApp();
     }
 
     // MODIFIES: this
     // EFFECTS: main loop the runs the game
-    private void runGameApp() {
+    private void runGameApp() throws FileNotFoundException, UnsupportedEncodingException {
         boolean keepGoing = true;
         String command;
         generateStartOfGame();
@@ -55,7 +62,9 @@ public class GameConsoleInterface {
     // - o will reprint locations of all the traps on the floor
     // - i will display inventory if not empty
     // - k will add a key at a random location on the map
-    private void doAction(String command) {
+    // - f will save current game
+    // - r will load a previous save
+    public void doAction(String command) throws FileNotFoundException, UnsupportedEncodingException {
         command = command.toLowerCase();
         if (command.equals("w") | command.equals("s") | command.equals("a") | command.equals("d")) {
             mainCharacter.moveCharacter(command);
@@ -67,22 +76,51 @@ public class GameConsoleInterface {
         } else if (command.equals("l")) {
             displayKey(mainGameMap.getOnFloorKeys());
         } else if (command.equals("i")) {
-            if (!mainCharacter.getInventory().isEmpty()) {
-                displayKey(mainCharacter.getInventory());
-            } else {
-                System.out.println("Inventory is Empty");
-            }
+            displayInventory();
         } else if (command.equals("k")) {
             addKeys(1);
-            displayKey(mainGameMap.getOnFloorKeys());
         } else if (command.equals("o")) {
             displayTraps();
+        } else if (command.equals("f")) {
+            saveGame();
+        } else if (command.equals("r")) {
+            loadGame();
         }
+    }
+
+    // EFFECTS: loads game of given name
+    public void loadGame() {
+        System.out.println("Please enter the name of the game you wish to load");
+        String file = "./data/" + input.next() + ".txt";
+        try {
+            mainGameMap = Reader.readMap(new File(file));
+        } catch (IOException e) {
+            System.out.println("No save under that name was found");
+        }
+        mainCharacter = mainGameMap.getMainCharacter();
+    }
+
+    // EFFECTS: displays keys in inventory if not empty
+    public void displayInventory() {
+        if (!mainCharacter.getInventory().isEmpty()) {
+            displayKey(mainCharacter.getInventory());
+        } else {
+            System.out.println("Inventory is Empty");
+        }
+    }
+
+    // EFFECTS: asks for input of file name and saves the current state of the game
+    public void saveGame() throws FileNotFoundException, UnsupportedEncodingException {
+        Writer saveGame;
+        saveGame = new Writer(new File("./data/" + mainCharacter.getCharacterName() + ".txt"));
+        saveGame.write(mainGameMap);
+        saveGame.close();
+        System.out.println("New save created under " + mainCharacter.getCharacterName());
     }
 
     // MODIFIES: this
     // EFFECTS: if character inventory is not empty then first item in inventory will be dropped
-    void dropItem() {
+    public void dropItem() {
         if (!mainCharacter.getInventory().isEmpty()) {
             System.out.println("Dropping first key");
             mainGameMap.addGivenKey(mainCharacter.dropItem(0));
@@ -93,7 +131,7 @@ public class GameConsoleInterface {
 
     // MODIFIES: this
     // EFFECTS: picks up item if one is close enough and inventory of character is not full
-    void pickUpItem() {
+    public void pickUpItem() {
         if (mainCharacter.isPickedUpItem(mainGameMap.getOnFloorKeys())) {
             System.out.println("A key was picked up");
         } else {
@@ -106,7 +144,6 @@ public class GameConsoleInterface {
     // EFFECTS: creates main character and displays location, creates keys at random locations and displays location,
     // then prints out input options
     private void generateStartOfGame() {
-        input = new Scanner(System.in);
         System.out.println("Enter the name of your character");
         String name = input.next();
         mainGameMap = new GameMap(name);
@@ -119,13 +156,14 @@ public class GameConsoleInterface {
     }
 
     // REQUIRES: amount > 0
-    // EFFECTS: adds amount of keys to the ground at random locations
+    // EFFECTS: adds amount of keys to the ground at random locations and then displays all the key locations
     private void addKeys(int amount) {
         String keyName;
         for (int i = 1; i <= amount; i++) {
             keyName = "key" + (mainGameMap.getOnFloorKeys().size() + 1);
             mainGameMap.addGivenKey(new Key(rand.nextInt(1000),rand.nextInt(1000),keyName));
         }
+        displayKey(mainGameMap.getOnFloorKeys());
     }
 
     // REQUIRES: amount > 0
@@ -147,6 +185,8 @@ public class GameConsoleInterface {
         System.out.println("- o to display locations of traps");
         System.out.println("- i to display inventory");
         System.out.println("- k will add another key");
+        System.out.println("- f will save the current game state");
+        System.out.println("- r will load the game from a previous save");
     }
 
     // EFFECTS: display location of all traps
@@ -192,22 +232,3 @@ public class GameConsoleInterface {
         }
     }
 }
-
-/*
-    // EFFECTS: saves state of chequing and savings accounts to ACCOUNTS_FILE
-    private void saveAccounts() {
-        try {
-            Writer writer = new Writer(new File(ACCOUNTS_FILE));
-            writer.write(cheq);
-            writer.write(sav);
-            writer.close();
-            System.out.println("Accounts saved to file " + ACCOUNTS_FILE);
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to save accounts to " + ACCOUNTS_FILE);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            // this is due to a programming error
-        }
-    }
-
- */

@@ -7,7 +7,7 @@ public class Trap {
 
     private int centerX;
     private int centerY;
-    Random rand;
+    private Random rand;
 
 
     public Trap() {

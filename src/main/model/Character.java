@@ -7,10 +7,10 @@ public class Character {
     private static final int MOVEMENT_DISTANCE = 10;
     private static final int MAX_SIZE_OF_INVENTORY = 3;
 
-    ArrayList<Key> inventory;
-    String name;
-    int locationX;
-    int locationY;
+    private ArrayList<Key> inventory;
+    private String name;
+    private int locationX;
+    private int locationY;
 
 
     // EFFECTS: Set character name to the given name and places him at the starting location
