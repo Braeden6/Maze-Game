@@ -72,7 +72,7 @@ public class GameMap implements Saveable {
     }
 
 
-    // EFFECTS: return true if one of the trap were set off
+    // EFFECTS: returns true if one of the trap were set off
     public boolean isTrapSetOff() {
         for (Trap t : onFloorTraps) {
             if (t.isTrapSetOff(mainCharacter.getLocationX(),mainCharacter.getLocationY())) {

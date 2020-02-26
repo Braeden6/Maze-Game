@@ -7,6 +7,9 @@ import model.Trap;
 import persistence.Writer;
 import persistence.Reader;
 
+import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,7 +19,7 @@ import java.util.Scanner;
 import java.util.Random;
 
 //This is the main game application
-public class GameConsoleInterface {
+public class GameConsoleInterface extends JFrame {
 
     private Scanner input;
     private Character mainCharacter;
@@ -25,9 +28,63 @@ public class GameConsoleInterface {
 
     // EFFECTS: initializes scanner and starts main loop
     public GameConsoleInterface() throws FileNotFoundException, UnsupportedEncodingException {
+        super("Maze Search Game");
+        setSize(100, 100);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setUndecorated(true);
+        addKeyListener(new KeyHandler());
         input = new Scanner(System.in);
         rand = new Random();
+        generateStartOfGame();
+        setVisible(true);
         runGameApp();
+
+    }
+
+    // EFFECTS: keyHandler that checks for w/a/s/d and updates character if move was requested
+    private class KeyHandler extends KeyAdapter {
+        @Override
+        // MODIFIES: this
+        // EFFECTS:  updates game in response to a keyboard event
+        public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_A:
+                    mainCharacter.moveCharacter("a");
+                    displayCharacter();
+                    break;
+                case KeyEvent.VK_S:
+                    mainCharacter.moveCharacter("s");
+                    displayCharacter();
+                    break;
+                case KeyEvent.VK_D:
+                    mainCharacter.moveCharacter("d");
+                    displayCharacter();
+                    break;
+                case KeyEvent.VK_W:
+                    mainCharacter.moveCharacter("w");
+                    displayCharacter();
+                    break;
+                default:
+                    break;
+            }
+            trapSetOff();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates main character and displays location, creates keys at random locations and displays location,
+    // then prints out input options
+    private void generateStartOfGame() {
+        System.out.println("Enter the name of your character");
+        String name = input.next();
+        mainGameMap = new GameMap(name);
+        mainCharacter = mainGameMap.getMainCharacter();
+        displayCharacter();
+        addTraps();
+        addKeys(GameMap.NUMBER_OF_KEYS);
+        displayKey(mainGameMap.getOnFloorKeys());
+        displayInputOptions();
     }
 
     // MODIFIES: this
@@ -35,57 +92,74 @@ public class GameConsoleInterface {
     private void runGameApp() throws FileNotFoundException, UnsupportedEncodingException {
         boolean keepGoing = true;
         String command;
-        generateStartOfGame();
-
         while (keepGoing) {
-            if (mainGameMap.isTrapSetOff()) {
-                System.out.println("You hit a trap");
+            command = input.next();
+            if (command.equals("q")) {
                 keepGoing = false;
             } else {
-                command = input.next();
-
-                if (command.equals("q")) {
-                    keepGoing = false;
-                } else {
-                    doAction(command);
-                }
+                doAction(command);
+                keepGoing = trapSetOff();
             }
         }
-        System.out.println("Game has been Stopped");
     }
 
+    // EFFECTS: ends game if a trap has been set off
+    private boolean trapSetOff() {
+        if (mainGameMap.isTrapSetOff()) {
+            System.out.println("You hit a trap");
+            return false;
+        }
+        return true;
+    }
 
     // EFFECTS: selects and does action based off command enters
-    // - w/a/s/d  is a move action and displays characters new location
     // - t will drop first item in inventory
     // - g will pick up item if possible
-    // - l will reprint locations of all the keys on the floor
-    // - o will reprint locations of all the traps on the floor
-    // - i will display inventory if not empty
     // - k will add a key at a random location on the map
     // - f will save current game
     // - r will load a previous save
+    // - o will reprint locations of all the traps on the floor
+    // - i will display inventory if not empty
+    // - l will reprint locations of all the keys on the floor
     public void doAction(String command) throws FileNotFoundException, UnsupportedEncodingException {
         command = command.toLowerCase();
-        if (command.equals("w") | command.equals("s") | command.equals("a") | command.equals("d")) {
-            mainCharacter.moveCharacter(command);
-            displayCharacter();
-        } else if (command.equals("t")) {
-            dropItem();
-        } else if (command.equals("g")) {
-            pickUpItem();
-        } else if (command.equals("l")) {
-            displayKey(mainGameMap.getOnFloorKeys());
-        } else if (command.equals("i")) {
-            displayInventory();
-        } else if (command.equals("k")) {
-            addKeys(1);
-        } else if (command.equals("o")) {
-            displayTraps();
-        } else if (command.equals("f")) {
-            saveGame();
-        } else if (command.equals("r")) {
-            loadGame();
+        switch (command) {
+            case "t":
+                dropItem();
+                break;
+            case "g":
+                pickUpItem();
+                break;
+            case "k":
+                addKeys(1);
+                break;
+            case "f":
+                saveGame();
+                break;
+            case "r":
+                loadGame();
+                break;
+            default:
+                checkDisplayRequest(command);
+                break;
+        }
+    }
+
+    // EFFECTS: checks to see if a display option has been triggered
+    // - o will reprint locations of all the traps on the floor
+    // - i will display inventory if not empty
+    // - l will reprint locations of all the keys on the floor
+    private void checkDisplayRequest(String command) {
+        switch (command) {
+            case "i":
+                displayInventory();
+                break;
+            case "o":
+                displayTraps();
+                break;
+            case "l":
+                displayKey(mainGameMap.getOnFloorKeys());
+                break;
         }
     }
 
@@ -140,37 +214,20 @@ public class GameConsoleInterface {
         }
     }
 
-
-    // MODIFIES: this
-    // EFFECTS: creates main character and displays location, creates keys at random locations and displays location,
-    // then prints out input options
-    private void generateStartOfGame() {
-        System.out.println("Enter the name of your character");
-        String name = input.next();
-        mainGameMap = new GameMap(name);
-        mainCharacter = mainGameMap.getMainCharacter();
-        displayCharacter();
-        addTraps(GameMap.NUMBER_OF_TRAPS);
-        addKeys(GameMap.NUMBER_OF_KEYS);
-        displayKey(mainGameMap.getOnFloorKeys());
-        displayInputOptions();
-    }
-
     // REQUIRES: amount > 0
     // EFFECTS: adds amount of keys to the ground at random locations and then displays all the key locations
     private void addKeys(int amount) {
         String keyName;
         for (int i = 1; i <= amount; i++) {
             keyName = "key" + (mainGameMap.getOnFloorKeys().size() + 1);
-            mainGameMap.addGivenKey(new Key(rand.nextInt(1000),rand.nextInt(1000),keyName));
+            mainGameMap.addGivenKey(new Key(rand.nextInt(1000), rand.nextInt(1000), keyName));
         }
         displayKey(mainGameMap.getOnFloorKeys());
     }
 
-    // REQUIRES: amount > 0
-    // EFFECTS: adds amount of traps to the ground at random locations
-    private void addTraps(int amount) {
-        for (int i = 1; i <= amount; i++) {
+    // EFFECTS: adds game starting amount of traps to the ground at random locations
+    private void addTraps() {
+        for (int i = 1; i <= GameMap.NUMBER_OF_TRAPS; i++) {
             mainGameMap.addGivenTrap(new Trap());
         }
     }
@@ -221,7 +278,7 @@ public class GameConsoleInterface {
             System.out.println("Key locations:");
         }
         for (Key k : listOfKeys) {
-            name  = k.getItemName();
+            name = k.getItemName();
             locationX = k.getLocationX();
             locationY = k.getLocationY();
             if (pickedUp) {
@@ -232,4 +289,9 @@ public class GameConsoleInterface {
 
         }
     }
+
 }
+
+
+
+
