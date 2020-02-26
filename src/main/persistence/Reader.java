@@ -20,7 +20,6 @@ public class Reader {
     // used to separate items list/ class
     public static final String CLASS_DELIMITER = "\n";
 
-
     // EFFECTS: returns a list of accounts parsed from file; throws
     // IOException if an exception is raised when opening / reading from file
     public static GameMap readMap(File file) throws IOException {

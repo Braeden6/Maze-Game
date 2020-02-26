@@ -54,6 +54,7 @@ public class GameConsoleInterface {
         System.out.println("Game has been Stopped");
     }
 
+
     // EFFECTS: selects and does action based off command enters
     // - w/a/s/d  is a move action and displays characters new location
     // - t will drop first item in inventory

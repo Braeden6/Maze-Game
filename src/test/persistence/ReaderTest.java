@@ -6,6 +6,7 @@ import model.GameMap;
 import model.Trap;
 import model.Key;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -19,6 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
 public class ReaderTest {
+
+    @BeforeEach
+    void runBefore() {
+        new Reader();
+    }
+
 
     @Test
     void testParseMap1() {
