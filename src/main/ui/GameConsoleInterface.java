@@ -8,13 +8,14 @@ import persistence.Writer;
 import persistence.Reader;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -26,50 +27,26 @@ public class GameConsoleInterface extends JFrame {
     private GameMap mainGameMap;
     private Random rand;
 
+    //getter
+    public Character getMainCharacter() {
+        return mainCharacter;
+    }
+
+    public GameMap getMainGameMap() {
+        return mainGameMap;
+    }
+
     // EFFECTS: initializes scanner and starts main loop
     public GameConsoleInterface() throws FileNotFoundException, UnsupportedEncodingException {
         super("Maze Search Game");
-        setSize(100, 100);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setUndecorated(true);
-        addKeyListener(new KeyHandler());
         input = new Scanner(System.in);
         rand = new Random();
         generateStartOfGame();
-        setVisible(true);
+        initializeGraphics();
+        addKeyListener(new KeyHandler());
+        validate();
         runGameApp();
 
-    }
-
-    // EFFECTS: keyHandler that checks for w/a/s/d and updates character if move was requested
-    private class KeyHandler extends KeyAdapter {
-        @Override
-        // MODIFIES: this
-        // EFFECTS:  updates game in response to a keyboard event
-        public void keyPressed(KeyEvent e) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_A:
-                    mainCharacter.moveCharacter("a");
-                    displayCharacter();
-                    break;
-                case KeyEvent.VK_S:
-                    mainCharacter.moveCharacter("s");
-                    displayCharacter();
-                    break;
-                case KeyEvent.VK_D:
-                    mainCharacter.moveCharacter("d");
-                    displayCharacter();
-                    break;
-                case KeyEvent.VK_W:
-                    mainCharacter.moveCharacter("w");
-                    displayCharacter();
-                    break;
-                default:
-                    break;
-            }
-            trapSetOff();
-        }
     }
 
     // MODIFIES: this
@@ -85,6 +62,17 @@ public class GameConsoleInterface extends JFrame {
         addKeys(GameMap.NUMBER_OF_KEYS);
         displayKey(mainGameMap.getOnFloorKeys());
         displayInputOptions();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes the JFrame of the app
+    private void initializeGraphics() {
+        setLayout(new BorderLayout());
+        setSize(GameMap.SCREEN_SIZE_WIDTH, GameMap.SCREEN_SIZE_HEIGHT);
+        new GameOptionPanels(this);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     // MODIFIES: this
@@ -104,7 +92,7 @@ public class GameConsoleInterface extends JFrame {
     }
 
     // EFFECTS: ends game if a trap has been set off
-    private boolean trapSetOff() {
+    public boolean trapSetOff() {
         if (mainGameMap.isTrapSetOff()) {
             System.out.println("You hit a trap");
             return false;
@@ -185,11 +173,18 @@ public class GameConsoleInterface extends JFrame {
     }
 
     // EFFECTS: asks for input of file name and saves the current state of the game
-    public void saveGame() throws FileNotFoundException, UnsupportedEncodingException {
+    public void saveGame() {
         Writer saveGame;
-        saveGame = new Writer(new File("./data/" + mainCharacter.getCharacterName() + ".txt"));
-        saveGame.write(mainGameMap);
-        saveGame.close();
+       // saveGame = new Writer(new File("./data/" + mainCharacter.getCharacterName() + ".txt"));
+        try {
+            saveGame = new Writer(new File("./data/" + mainCharacter.getCharacterName() + ".txt"));
+            saveGame.write(mainGameMap);
+            saveGame.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         System.out.println("New save created under " + mainCharacter.getCharacterName());
     }
 
@@ -216,7 +211,7 @@ public class GameConsoleInterface extends JFrame {
 
     // REQUIRES: amount > 0
     // EFFECTS: adds amount of keys to the ground at random locations and then displays all the key locations
-    private void addKeys(int amount) {
+    public void addKeys(int amount) {
         String keyName;
         for (int i = 1; i <= amount; i++) {
             keyName = "key" + (mainGameMap.getOnFloorKeys().size() + 1);
@@ -248,7 +243,7 @@ public class GameConsoleInterface extends JFrame {
     }
 
     // EFFECTS: display location of all traps
-    private void displayTraps() {
+    public void displayTraps() {
         int x;
         int y;
         for (Trap t : mainGameMap.getOnFloorTraps()) {
@@ -259,7 +254,7 @@ public class GameConsoleInterface extends JFrame {
     }
 
     // EFFECTS: display main character name and location
-    private void displayCharacter() {
+    public void displayCharacter() {
         String name = mainCharacter.getCharacterName();
         int locationX = mainCharacter.getLocationX();
         int locationY = mainCharacter.getLocationY();
@@ -267,7 +262,7 @@ public class GameConsoleInterface extends JFrame {
     }
 
     //EFFECTS: displays key's names in given list. If they are the ground then the location will be displayed also.
-    private void displayKey(ArrayList<Key> listOfKeys) {
+    public void displayKey(LinkedList<Key> listOfKeys) {
         boolean pickedUp = listOfKeys.get(0).isPickedUp();
         String name;
         int locationX;
@@ -290,7 +285,37 @@ public class GameConsoleInterface extends JFrame {
         }
     }
 
+    // EFFECTS: keyHandler that checks for w/a/s/d and updates character if move was requested
+    private class KeyHandler extends KeyAdapter {
+        @Override
+        // MODIFIES: this
+        // EFFECTS:  updates game in response to a keyboard event
+        public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_A:
+                    mainCharacter.moveCharacter("a");
+                    displayCharacter();
+                    break;
+                case KeyEvent.VK_S:
+                    mainCharacter.moveCharacter("s");
+                    displayCharacter();
+                    break;
+                case KeyEvent.VK_D:
+                    mainCharacter.moveCharacter("d");
+                    displayCharacter();
+                    break;
+                case KeyEvent.VK_W:
+                    mainCharacter.moveCharacter("w");
+                    displayCharacter();
+                    break;
+                default:
+                    break;
+            }
+            trapSetOff();
+        }
+    }
 }
+
 
 
 

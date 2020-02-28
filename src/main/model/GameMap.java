@@ -5,6 +5,7 @@ import persistence.Saveable;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 // this class is a list of items that are currently on the map ground
 public class GameMap implements Saveable {
@@ -13,13 +14,13 @@ public class GameMap implements Saveable {
     public static final int NUMBER_OF_KEYS = 4;
     public static final int NUMBER_OF_TRAPS = 4;
 
-    private ArrayList<Key> onFloorKeys;
+    private LinkedList<Key> onFloorKeys;
     private ArrayList<Trap> onFloorTraps;
     private Character mainCharacter;
 
 
     public GameMap(String name) {
-        onFloorKeys = new ArrayList<>();
+        onFloorKeys = new LinkedList<>();
         mainCharacter = new Character(name);
         onFloorTraps =  new ArrayList<>();
     }
@@ -45,7 +46,7 @@ public class GameMap implements Saveable {
 
 
     // EFFECTS: returns the list of keys
-    public ArrayList<Key> getOnFloorKeys() {
+    public LinkedList<Key> getOnFloorKeys() {
         return onFloorKeys;
     }
 
@@ -103,7 +104,7 @@ public class GameMap implements Saveable {
 
     // MODIFIES: printWriter
     // EFFECTS: writes the Key list to printWriter
-    private void saveKeys(PrintWriter printWriter, ArrayList<Key> keys) {
+    private void saveKeys(PrintWriter printWriter, LinkedList<Key> keys) {
         for (Key k : keys) {
             printWriter.print(k.getItemName());
             printWriter.print(Reader.DELIMITER);

@@ -1,13 +1,14 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 // This class is the main character that has an inventory and a move-able location
 public class Character {
     private static final int MOVEMENT_DISTANCE = 10;
     private static final int MAX_SIZE_OF_INVENTORY = 3;
 
-    private ArrayList<Key> inventory;
+    private LinkedList<Key> inventory;
     private String name;
     private int locationX;
     private int locationY;
@@ -15,7 +16,7 @@ public class Character {
 
     // EFFECTS: Set character name to the given name and places him at the starting location
     public Character(String name) {
-        inventory = new ArrayList<>();
+        inventory = new LinkedList<>();
         this.name = name;
         locationX = 0;
         locationY = GameMap.SCREEN_SIZE_HEIGHT / 2;
@@ -70,7 +71,7 @@ public class Character {
     // MODIFIES: this
     // EFFECTS: checks if inventory is full and if it can pick up the item. If both are true it add item
     // to inventory and returns true as if it had picked up item
-    public boolean isPickedUpItem(ArrayList<Key> itemOnFloor) {
+    public boolean isPickedUpItem(LinkedList<Key> itemOnFloor) {
         if (!isInventoryFull()) {
             for (Key k : itemOnFloor) {
                 if (k.isAbleToPickUp(locationX,locationY)) {
@@ -105,7 +106,7 @@ public class Character {
     }
 
     // EFFECTS: returns list of items in inventory
-    public ArrayList<Key> getInventory() {
+    public LinkedList<Key> getInventory() {
         return inventory;
     }
 

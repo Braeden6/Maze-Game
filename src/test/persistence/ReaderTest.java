@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,8 +34,8 @@ public class ReaderTest {
             GameMap map = Reader.readMap(new File("./data/testMap1.txt"));
             Character character = map.getMainCharacter();
             ArrayList<Trap> onFloorTraps = map.getOnFloorTraps();
-            ArrayList<Key> onFloorKeys = map.getOnFloorKeys();
-            ArrayList<Key> inventory = character.getInventory();
+            LinkedList<Key> onFloorKeys = map.getOnFloorKeys();
+            LinkedList<Key> inventory = character.getInventory();
            //test character info
             assertEquals("Bobby", character.getCharacterName());
             assertEquals(456,character.getLocationX());
@@ -73,7 +74,7 @@ public class ReaderTest {
             GameMap map = Reader.readMap(new File("./data/testMap2.txt"));
             Character character = map.getMainCharacter();
             ArrayList<Trap> onFloorTraps = map.getOnFloorTraps();
-            ArrayList<Key> onFloorKeys = map.getOnFloorKeys();
+            LinkedList<Key> onFloorKeys = map.getOnFloorKeys();
             //test character info
             assertEquals("Fred", character.getCharacterName());
             assertEquals(1000,character.getLocationX());

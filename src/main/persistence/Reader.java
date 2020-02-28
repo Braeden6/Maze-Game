@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -94,7 +95,7 @@ public class Reader {
 
     // EFFECTS: adds keys to list until a '/' is reached
     // MODIFIES: Given key list
-    private static void addKeys(ArrayList<String> components, ArrayList<Key> listOfKeys) {
+    private static void addKeys(ArrayList<String> components, LinkedList<Key> listOfKeys) {
         Key createdKey;
         String name;
         int locationX;

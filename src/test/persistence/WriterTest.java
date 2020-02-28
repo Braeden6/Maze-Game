@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,7 +42,7 @@ class WriterTest {
         try {
             GameMap map = Reader.readMap(new File("./data/testMap.txt"));
             Character character = map.getMainCharacter();
-            ArrayList<Key> onFloorKeys = map.getOnFloorKeys();
+            LinkedList<Key> onFloorKeys = map.getOnFloorKeys();
             //test character info
             assertEquals("Jeff", character.getCharacterName());
             assertEquals(0,character.getLocationX());

@@ -4,13 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CharacterTest {
     private Character testCharacter;
     private ArrayList<Key> testInventory;
-    private ArrayList<Key> testFloor;
+    private LinkedList<Key> testFloor;
     private Key key1;
     private Key key2;
 
@@ -18,7 +19,7 @@ class CharacterTest {
     void runBefore() {
         testCharacter = new Character("Bob");
         testInventory = new ArrayList<>();
-        testFloor = new ArrayList<>();
+        testFloor = new LinkedList<>();
     }
 
     @Test
