@@ -26,18 +26,15 @@ public class GameConsoleInterface extends JFrame {
     private Character mainCharacter;
     private GameMap mainGameMap;
     private Random rand;
+    private boolean keepGoing = true;
 
     //getter
-    public Character getMainCharacter() {
-        return mainCharacter;
-    }
-
     public GameMap getMainGameMap() {
         return mainGameMap;
     }
 
     // EFFECTS: initializes scanner and starts main loop
-    public GameConsoleInterface() throws FileNotFoundException, UnsupportedEncodingException {
+    public GameConsoleInterface() {
         super("Maze Search Game");
         input = new Scanner(System.in);
         rand = new Random();
@@ -61,7 +58,6 @@ public class GameConsoleInterface extends JFrame {
         addTraps();
         addKeys(GameMap.NUMBER_OF_KEYS);
         displayKey(mainGameMap.getOnFloorKeys());
-        displayInputOptions();
     }
 
     // MODIFIES: this
@@ -77,17 +73,14 @@ public class GameConsoleInterface extends JFrame {
 
     // MODIFIES: this
     // EFFECTS: main loop the runs the game
-    private void runGameApp() throws FileNotFoundException, UnsupportedEncodingException {
-        boolean keepGoing = true;
+    private void runGameApp() {
         String command;
         while (keepGoing) {
             command = input.next();
-            if (command.equals("q")) {
-                keepGoing = false;
-            } else {
-                doAction(command);
-                keepGoing = trapSetOff();
+            if (command.equals("r")) {
+                loadGame();
             }
+            keepGoing = trapSetOff();
         }
     }
 
@@ -98,57 +91,6 @@ public class GameConsoleInterface extends JFrame {
             return false;
         }
         return true;
-    }
-
-    // EFFECTS: selects and does action based off command enters
-    // - t will drop first item in inventory
-    // - g will pick up item if possible
-    // - k will add a key at a random location on the map
-    // - f will save current game
-    // - r will load a previous save
-    // - o will reprint locations of all the traps on the floor
-    // - i will display inventory if not empty
-    // - l will reprint locations of all the keys on the floor
-    public void doAction(String command) throws FileNotFoundException, UnsupportedEncodingException {
-        command = command.toLowerCase();
-        switch (command) {
-            case "t":
-                dropItem();
-                break;
-            case "g":
-                pickUpItem();
-                break;
-            case "k":
-                addKeys(1);
-                break;
-            case "f":
-                saveGame();
-                break;
-            case "r":
-                loadGame();
-                break;
-            default:
-                checkDisplayRequest(command);
-                break;
-        }
-    }
-
-    // EFFECTS: checks to see if a display option has been triggered
-    // - o will reprint locations of all the traps on the floor
-    // - i will display inventory if not empty
-    // - l will reprint locations of all the keys on the floor
-    private void checkDisplayRequest(String command) {
-        switch (command) {
-            case "i":
-                displayInventory();
-                break;
-            case "o":
-                displayTraps();
-                break;
-            case "l":
-                displayKey(mainGameMap.getOnFloorKeys());
-                break;
-        }
     }
 
     // EFFECTS: loads game of given name
@@ -175,14 +117,11 @@ public class GameConsoleInterface extends JFrame {
     // EFFECTS: asks for input of file name and saves the current state of the game
     public void saveGame() {
         Writer saveGame;
-       // saveGame = new Writer(new File("./data/" + mainCharacter.getCharacterName() + ".txt"));
         try {
             saveGame = new Writer(new File("./data/" + mainCharacter.getCharacterName() + ".txt"));
             saveGame.write(mainGameMap);
             saveGame.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         System.out.println("New save created under " + mainCharacter.getCharacterName());
@@ -225,21 +164,6 @@ public class GameConsoleInterface extends JFrame {
         for (int i = 1; i <= GameMap.NUMBER_OF_TRAPS; i++) {
             mainGameMap.addGivenTrap(new Trap());
         }
-    }
-
-    // EFFECTS: displays all possible input option while playing the game
-    private void displayInputOptions() {
-        System.out.println("Enter Action:");
-        System.out.println("- q to quit");
-        System.out.println("- w/a/s/d to move");
-        System.out.println("- t to drop first item");
-        System.out.println("- g to try to pick up item");
-        System.out.println("- l to display locations of the keys");
-        System.out.println("- o to display locations of traps");
-        System.out.println("- i to display inventory");
-        System.out.println("- k will add another key");
-        System.out.println("- f will save the current game state");
-        System.out.println("- r will load the game from a previous save");
     }
 
     // EFFECTS: display location of all traps
