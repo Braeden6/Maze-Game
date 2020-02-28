@@ -21,8 +21,6 @@ public class GameOptionPanels extends KeyAdapter  {
     private JButton newKey;
     private JButton saveGame;
     private JButton loadGame;
-    private JButton displayKeys;
-    private JButton displayTraps;
 
     public GameOptionPanels(GameConsoleInterface parent) {
         mainInterface = parent;
@@ -49,8 +47,6 @@ public class GameOptionPanels extends KeyAdapter  {
         optionArea.add(newKey);
         optionArea.add(saveGame);
         optionArea.add(loadGame);
-        optionArea.add(displayKeys);
-        optionArea.add(displayTraps);
 
         inventory.addActionListener(buttonActionListener);
         pickUp.addActionListener(buttonActionListener);
@@ -58,8 +54,6 @@ public class GameOptionPanels extends KeyAdapter  {
         newKey.addActionListener(buttonActionListener);
         saveGame.addActionListener(buttonActionListener);
         loadGame.addActionListener(buttonActionListener);
-        displayKeys.addActionListener(buttonActionListener);
-        displayTraps.addActionListener(buttonActionListener);
     }
 
     // MODIFIES: this
@@ -71,8 +65,6 @@ public class GameOptionPanels extends KeyAdapter  {
         newKey = new JButton("Add Key");
         saveGame = new JButton("Save Game");
         loadGame = new JButton("Load Game");
-        displayKeys = new JButton("Display Keys");
-        displayTraps = new JButton("Display Traps");
     }
 
     // EFFECTS: set Focusable off all buttons to false
@@ -83,8 +75,6 @@ public class GameOptionPanels extends KeyAdapter  {
         newKey.setFocusable(false);
         saveGame.setFocusable(false);
         loadGame.setFocusable(false);
-        displayKeys.setFocusable(false);
-        displayTraps.setFocusable(false);
     }
 
     private class ButtonPressed implements ActionListener {
@@ -114,18 +104,8 @@ public class GameOptionPanels extends KeyAdapter  {
         }
 
         private void displayAction(String pressed) {
-            switch (pressed) {
-                case "Display Keys" :
-                    mainInterface.displayKey(mainInterface.getMainGameMap().getOnFloorKeys());
-                    break;
-                case "Display Traps" :
-                    mainInterface.displayTraps();
-                    break;
-                case "Inventory" :
-                    mainInterface.displayInventory();
-                    break;
-                default:
-                    break;
+            if ("Inventory".equals(pressed)) {
+                mainInterface.displayInventory();
             }
 
         }

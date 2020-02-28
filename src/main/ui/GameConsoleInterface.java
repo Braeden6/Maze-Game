@@ -9,6 +9,8 @@ import persistence.Reader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -22,16 +24,14 @@ import java.util.Random;
 //This is the main game application
 public class GameConsoleInterface extends JFrame {
 
+    private static final int INTERVAL = 20;
     private Scanner input;
+    private JTextField textBox;
     private Character mainCharacter;
     private GameMap mainGameMap;
     private Random rand;
     private boolean keepGoing = true;
-
-    //getter
-    public GameMap getMainGameMap() {
-        return mainGameMap;
-    }
+    private GamePanel gp;
 
     // EFFECTS: initializes scanner and starts main loop
     public GameConsoleInterface() {
@@ -42,8 +42,23 @@ public class GameConsoleInterface extends JFrame {
         initializeGraphics();
         addKeyListener(new KeyHandler());
         validate();
+        addTimer();
         runGameApp();
 
+    }
+
+    // Set up timer
+    // MODIFIES: none
+    // EFFECTS:  initializes a timer that updates game each
+    //           INTERVAL milliseconds
+    private void addTimer() {
+        Timer t = new Timer(INTERVAL, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                gp.repaint();
+            }
+        });
+        t.start();
     }
 
     // MODIFIES: this
@@ -54,19 +69,21 @@ public class GameConsoleInterface extends JFrame {
         String name = input.next();
         mainGameMap = new GameMap(name);
         mainCharacter = mainGameMap.getMainCharacter();
-        displayCharacter();
         addTraps();
         addKeys(GameMap.NUMBER_OF_KEYS);
-        displayKey(mainGameMap.getOnFloorKeys());
     }
 
     // MODIFIES: this
     // EFFECTS: initializes the JFrame of the app
     private void initializeGraphics() {
         setLayout(new BorderLayout());
-        setSize(GameMap.SCREEN_SIZE_WIDTH, GameMap.SCREEN_SIZE_HEIGHT);
-        new GameOptionPanels(this);
+        // 215 for the buttons at the bottom
+        setSize(GameMap.SCREEN_SIZE_WIDTH + 30, GameMap.SCREEN_SIZE_HEIGHT + 215);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        new GameOptionPanels(this);
+        textBox = new JTextField(10);
+        add(textBox, BorderLayout.NORTH);
+        gp =  new GamePanel(this, mainGameMap);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -95,14 +112,14 @@ public class GameConsoleInterface extends JFrame {
 
     // EFFECTS: loads game of given name
     public void loadGame() {
-        System.out.println("Please enter the name of the game you wish to load");
-        String file = "./data/" + input.next() + ".txt";
+        String file = "./data/" + textBox.getText() + ".txt";
         try {
             mainGameMap = Reader.readMap(new File(file));
         } catch (IOException e) {
             System.out.println("No save under that name was found");
         }
         mainCharacter = mainGameMap.getMainCharacter();
+        gp.loadGame(this, mainGameMap);
     }
 
     // EFFECTS: displays keys in inventory if not empty
@@ -131,32 +148,26 @@ public class GameConsoleInterface extends JFrame {
     // EFFECTS: if character inventory is not empty then first item in inventory will be dropped
     public void dropItem() {
         if (!mainCharacter.getInventory().isEmpty()) {
-            System.out.println("Dropping first key");
             mainGameMap.addGivenKey(mainCharacter.dropItem(0));
-        } else {
-            System.out.println("Inventory is currently empty, can not drop anything");
         }
     }
 
     // MODIFIES: this
     // EFFECTS: picks up item if one is close enough and inventory of character is not full
     public void pickUpItem() {
-        if (mainCharacter.isPickedUpItem(mainGameMap.getOnFloorKeys())) {
-            System.out.println("A key was picked up");
-        } else {
-            System.out.println("Unable to pick up any key");
-        }
+        mainCharacter.isPickedUpItem(mainGameMap.getOnFloorKeys());
     }
 
     // REQUIRES: amount > 0
     // EFFECTS: adds amount of keys to the ground at random locations and then displays all the key locations
     public void addKeys(int amount) {
+        int w = GameMap.SCREEN_SIZE_WIDTH;
+        int h = GameMap.SCREEN_SIZE_HEIGHT;
         String keyName;
         for (int i = 1; i <= amount; i++) {
             keyName = "key" + (mainGameMap.getOnFloorKeys().size() + 1);
-            mainGameMap.addGivenKey(new Key(rand.nextInt(1000), rand.nextInt(1000), keyName));
+            mainGameMap.addGivenKey(new Key(rand.nextInt(w), rand.nextInt(h), keyName));
         }
-        displayKey(mainGameMap.getOnFloorKeys());
     }
 
     // EFFECTS: adds game starting amount of traps to the ground at random locations
@@ -166,36 +177,13 @@ public class GameConsoleInterface extends JFrame {
         }
     }
 
-    // EFFECTS: display location of all traps
-    public void displayTraps() {
-        int x;
-        int y;
-        for (Trap t : mainGameMap.getOnFloorTraps()) {
-            x = t.getCenterX();
-            y = t.getCenterY();
-            System.out.println("Trap" + (mainGameMap.getOnFloorTraps().indexOf(t) + 1) + " X: " + x + " Y: " + y);
-        }
-    }
-
-    // EFFECTS: display main character name and location
-    public void displayCharacter() {
-        String name = mainCharacter.getCharacterName();
-        int locationX = mainCharacter.getLocationX();
-        int locationY = mainCharacter.getLocationY();
-        System.out.println(name + " is at" + " X: " + locationX + " Y: " + locationY);
-    }
-
     //EFFECTS: displays key's names in given list. If they are the ground then the location will be displayed also.
     public void displayKey(LinkedList<Key> listOfKeys) {
         boolean pickedUp = listOfKeys.get(0).isPickedUp();
         String name;
         int locationX;
         int locationY;
-        if (pickedUp) {
-            System.out.println("Inventory:");
-        } else {
-            System.out.println("Key locations:");
-        }
+        System.out.println("Inventory:");
         for (Key k : listOfKeys) {
             name = k.getItemName();
             locationX = k.getLocationX();
@@ -218,19 +206,15 @@ public class GameConsoleInterface extends JFrame {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_A:
                     mainCharacter.moveCharacter("a");
-                    displayCharacter();
                     break;
                 case KeyEvent.VK_S:
-                    mainCharacter.moveCharacter("s");
-                    displayCharacter();
+                    mainCharacter.moveCharacter("w");
                     break;
                 case KeyEvent.VK_D:
                     mainCharacter.moveCharacter("d");
-                    displayCharacter();
                     break;
                 case KeyEvent.VK_W:
-                    mainCharacter.moveCharacter("w");
-                    displayCharacter();
+                    mainCharacter.moveCharacter("s");
                     break;
                 default:
                     break;

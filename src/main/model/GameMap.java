@@ -9,10 +9,10 @@ import java.util.LinkedList;
 
 // this class is a list of items that are currently on the map ground
 public class GameMap implements Saveable {
-    public static final int SCREEN_SIZE_WIDTH = 1000;
-    public static final int SCREEN_SIZE_HEIGHT = 1000;
-    public static final int NUMBER_OF_KEYS = 4;
-    public static final int NUMBER_OF_TRAPS = 4;
+    public static final int SCREEN_SIZE_WIDTH = 970;
+    public static final int SCREEN_SIZE_HEIGHT = 785;
+    public static final int NUMBER_OF_KEYS = 5;
+    public static final int NUMBER_OF_TRAPS = 20;
 
     private LinkedList<Key> onFloorKeys;
     private ArrayList<Trap> onFloorTraps;
