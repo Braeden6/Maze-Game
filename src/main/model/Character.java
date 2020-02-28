@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 // This class is the main character that has an inventory and a move-able location
