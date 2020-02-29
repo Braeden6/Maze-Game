@@ -21,10 +21,10 @@ public class TrapTest {
     @Test
     void testTrapSetOff() {
         assertTrue(testTrap.isTrapSetOff(x,y));
-        assertFalse(testTrap.isTrapSetOff(x - 5,y));
-        assertFalse(testTrap.isTrapSetOff(x,y - 5));
-        assertFalse(testTrap.isTrapSetOff(x + 5,y));
-        assertFalse(testTrap.isTrapSetOff(x,y + 5));
+        assertFalse(testTrap.isTrapSetOff(x - 1 - Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP,y));
+        assertFalse(testTrap.isTrapSetOff(x,y - 1 - Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP));
+        assertFalse(testTrap.isTrapSetOff(x + 1 + Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP,y));
+        assertFalse(testTrap.isTrapSetOff(x,y + 1 + Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP));
         testTrap.setTrapCenter( 250, 245);
         assertFalse(testTrap.isTrapSetOff(x,y));
     }

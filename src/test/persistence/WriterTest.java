@@ -46,7 +46,7 @@ class WriterTest {
             //test character info
             assertEquals("Jeff", character.getCharacterName());
             assertEquals(0,character.getLocationX());
-            assertEquals(500,character.getLocationY());
+            assertEquals(GameMap.SCREEN_SIZE_HEIGHT / 2,character.getLocationY());
             //test onFloorKeys
             assertEquals("testKey1",onFloorKeys.get(0).getItemName());
             assertEquals(100,onFloorKeys.get(0).getLocationX());

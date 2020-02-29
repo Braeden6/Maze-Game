@@ -137,9 +137,7 @@ public class GameOptionPanels extends KeyAdapter  {
             if ("Inventory".equals(pressed)) {
                 mainInterface.displayInventory();
             }
-
         }
-
     }
 }
 

@@ -3,7 +3,7 @@ package model;
 import java.util.Random;
 
 public class Trap {
-    public static final int DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP = 8;
+    public static final int DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP = 40;
 
     private int centerX;
     private int centerY;

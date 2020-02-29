@@ -27,10 +27,11 @@ public class GameConsoleInterface extends JFrame {
     private static final int INTERVAL = 20;
     private Scanner input;
     private Character mainCharacter;
+    private boolean displayInventory = false;
     private GameMap mainGameMap;
     private Random rand;
-    private boolean keepGoing = true;
     private GamePanel gp;
+    private DisplayInventory dp;
 
     // EFFECTS: initializes scanner and starts main loop
     public GameConsoleInterface() {
@@ -59,6 +60,10 @@ public class GameConsoleInterface extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 gp.repaint();
+                if (displayInventory) {
+                    dp.repaint();
+                }
+
             }
         });
         t.start();
@@ -85,6 +90,7 @@ public class GameConsoleInterface extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         new GameOptionPanels(this);
         gp =  new GamePanel(this, mainGameMap);
+        dp = new DisplayInventory(this, mainCharacter);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -104,19 +110,24 @@ public class GameConsoleInterface extends JFrame {
         try {
             mainGameMap = Reader.readMap(new File(file));
         } catch (IOException e) {
-            System.out.println("No save under that name was found");
+            //nothing
         }
         mainCharacter = mainGameMap.getMainCharacter();
         gp.loadGame(this, mainGameMap);
+        dp.setMainCharacter(mainCharacter);
     }
 
     // EFFECTS: displays keys in inventory if not empty
     public void displayInventory() {
-        if (!mainCharacter.getInventory().isEmpty()) {
-            displayKey(mainCharacter.getInventory());
+        if (!displayInventory) {
+            displayInventory = true;
+            dp.enableDisplay();
         } else {
-            System.out.println("Inventory is Empty");
+            dp.disableDisplay();
+            displayInventory = false;
         }
+        setVisible(true);
+
     }
 
     // EFFECTS: asks for input of file name and saves the current state of the game
@@ -129,7 +140,6 @@ public class GameConsoleInterface extends JFrame {
         } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        System.out.println("New save created under " + mainCharacter.getCharacterName());
     }
 
     // MODIFIES: this
@@ -162,26 +172,6 @@ public class GameConsoleInterface extends JFrame {
     private void addTraps() {
         for (int i = 1; i <= GameMap.NUMBER_OF_TRAPS; i++) {
             mainGameMap.addGivenTrap(new Trap());
-        }
-    }
-
-    //EFFECTS: displays key's names in given list. If they are the ground then the location will be displayed also.
-    public void displayKey(LinkedList<Key> listOfKeys) {
-        boolean pickedUp = listOfKeys.get(0).isPickedUp();
-        String name;
-        int locationX;
-        int locationY;
-        System.out.println("Inventory:");
-        for (Key k : listOfKeys) {
-            name = k.getItemName();
-            locationX = k.getLocationX();
-            locationY = k.getLocationY();
-            if (pickedUp) {
-                System.out.println("Slot" + (listOfKeys.indexOf(k) + 1) + " has " + name);
-            } else {
-                System.out.println(name + " X: " + locationX + " Y: " + locationY);
-            }
-
         }
     }
 

@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 // This class is the main character that has an inventory and a move-able location
 public class Character {
-    private static final int MOVEMENT_DISTANCE = 10;
-    private static final int MAX_SIZE_OF_INVENTORY = 3;
+    public static final int MOVEMENT_DISTANCE = 10;
+    public static final int MAX_SIZE_OF_INVENTORY = 6;
 
     private LinkedList<Key> inventory;
     private String name;

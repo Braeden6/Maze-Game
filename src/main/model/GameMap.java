@@ -11,7 +11,7 @@ import java.util.LinkedList;
 public class GameMap implements Saveable {
     public static final int SCREEN_SIZE_WIDTH = 970;
     public static final int SCREEN_SIZE_HEIGHT = 785;
-    public static final int NUMBER_OF_KEYS = 5;
+    public static final int NUMBER_OF_KEYS = 10;
     public static final int NUMBER_OF_TRAPS = 20;
 
     private LinkedList<Key> onFloorKeys;

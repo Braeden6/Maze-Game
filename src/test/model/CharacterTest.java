@@ -29,8 +29,10 @@ class CharacterTest {
         key2 = new Key(304, 405, "key2");
         testFloor.add(key1);
         testFloor.add(key2);
-        testFloor.add(new Key(201, 900, "key3"));
-        testFloor.add(new Key(201, 900, "key4"));
+        for ( int i = 0 ; i < Character.MAX_SIZE_OF_INVENTORY; i++) {
+            testFloor.add(new Key(201, 900, "key" ));
+        }
+
 
 
         //add first item
@@ -46,11 +48,12 @@ class CharacterTest {
         assertEquals(testInventory, testCharacter.getInventory());
 
         // add third and last item
-        testCharacter.setCharacterLocation(210, 899);
+        testCharacter.setCharacterLocation(202 + Key.REACH, 899);
         assertFalse(testCharacter.isPickedUpItem(testFloor));
-        testCharacter.setCharacterLocation(202, 899);
-        assertTrue(testCharacter.isPickedUpItem(testFloor));
-
+        testCharacter.setCharacterLocation(201 + Key.REACH / 2, 899);
+        for (int i = 2 ; i < Character.MAX_SIZE_OF_INVENTORY; i++) {
+            assertTrue(testCharacter.isPickedUpItem(testFloor));
+        }
         // add past inventory max
         assertFalse(testCharacter.isPickedUpItem(testFloor));
     }
@@ -88,21 +91,22 @@ class CharacterTest {
     @Test
     void testGeneralMovement() {
         testCharacter.moveCharacter("w");
-        assertEquals(510, testCharacter.getLocationY());
+        int y = GameMap.SCREEN_SIZE_HEIGHT / 2 + Character.MOVEMENT_DISTANCE;
+        assertEquals(y, testCharacter.getLocationY());
         testCharacter.moveCharacter("d");
         assertEquals(10, testCharacter.getLocationX());
         testCharacter.setCharacterLocation(500, 206);
         testCharacter.moveCharacter("d");
-        assertEquals(510, testCharacter.getLocationX());
+        assertEquals(500 + Character.MOVEMENT_DISTANCE, testCharacter.getLocationX());
         testCharacter.moveCharacter("s");
-        assertEquals(196, testCharacter.getLocationY());
+    assertEquals(206 - Character.MOVEMENT_DISTANCE, testCharacter.getLocationY());
     }
 
     @Test
     void testMoveTopMax() {
-        testCharacter.setCharacterLocation(999, 999);
+        testCharacter.setCharacterLocation(GameMap.SCREEN_SIZE_WIDTH, GameMap.SCREEN_SIZE_HEIGHT);
         testCharacter.moveCharacter("w");
-        assertEquals(1000, testCharacter.getLocationY());
+        assertEquals(GameMap.SCREEN_SIZE_HEIGHT, testCharacter.getLocationY());
     }
 
     @Test
@@ -114,9 +118,9 @@ class CharacterTest {
 
     @Test
     void testMoveRightMax() {
-        testCharacter.setCharacterLocation(999, 999);
+        testCharacter.setCharacterLocation(GameMap.SCREEN_SIZE_WIDTH, GameMap.SCREEN_SIZE_HEIGHT);
         testCharacter.moveCharacter("d");
-        assertEquals(1000, testCharacter.getLocationX());
+        assertEquals(GameMap.SCREEN_SIZE_WIDTH, testCharacter.getLocationX());
     }
 
     @Test

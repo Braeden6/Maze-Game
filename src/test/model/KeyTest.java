@@ -16,11 +16,11 @@ public class KeyTest {
     @Test
     void testisPickUp() {
         assertEquals("testKey", testKey.getItemName());
-        assertFalse(testKey.isAbleToPickUp(106,206));
-        assertFalse(testKey.isAbleToPickUp(94,194));
-        assertFalse(testKey.isAbleToPickUp(95,194));
-        assertFalse(testKey.isAbleToPickUp(94,195));
-        assertTrue(testKey.isAbleToPickUp(95,195));
+        assertFalse(testKey.isAbleToPickUp(101 + Key.REACH,201 + Key.REACH));
+        assertFalse(testKey.isAbleToPickUp(99 - Key.REACH,199 - Key.REACH));
+        assertFalse(testKey.isAbleToPickUp(100,199 - Key.REACH));
+        assertFalse(testKey.isAbleToPickUp(99 - Key.REACH,200));
+        assertTrue(testKey.isAbleToPickUp(100 - Key.REACH,200 - Key.REACH));
     }
 
     @Test
