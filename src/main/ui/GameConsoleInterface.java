@@ -26,7 +26,6 @@ public class GameConsoleInterface extends JFrame {
 
     private static final int INTERVAL = 20;
     private Scanner input;
-    private JTextField textBox;
     private Character mainCharacter;
     private GameMap mainGameMap;
     private Random rand;
@@ -35,7 +34,7 @@ public class GameConsoleInterface extends JFrame {
 
     // EFFECTS: initializes scanner and starts main loop
     public GameConsoleInterface() {
-        super("Maze Search Game");
+        super("Search Game");
         input = new Scanner(System.in);
         rand = new Random();
         generateStartOfGame();
@@ -43,8 +42,12 @@ public class GameConsoleInterface extends JFrame {
         addKeyListener(new KeyHandler());
         validate();
         addTimer();
-        runGameApp();
+    }
 
+    // EFFECTS: reset visibility and focus of the main frame
+    public void resetMainFrame() {
+        setVisible(true);
+        requestFocus();
     }
 
     // Set up timer
@@ -81,24 +84,9 @@ public class GameConsoleInterface extends JFrame {
         setSize(GameMap.SCREEN_SIZE_WIDTH + 30, GameMap.SCREEN_SIZE_HEIGHT + 215);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         new GameOptionPanels(this);
-        textBox = new JTextField(10);
-        add(textBox, BorderLayout.NORTH);
         gp =  new GamePanel(this, mainGameMap);
         setLocationRelativeTo(null);
         setVisible(true);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: main loop the runs the game
-    private void runGameApp() {
-        String command;
-        while (keepGoing) {
-            command = input.next();
-            if (command.equals("r")) {
-                loadGame();
-            }
-            keepGoing = trapSetOff();
-        }
     }
 
     // EFFECTS: ends game if a trap has been set off
@@ -111,8 +99,8 @@ public class GameConsoleInterface extends JFrame {
     }
 
     // EFFECTS: loads game of given name
-    public void loadGame() {
-        String file = "./data/" + textBox.getText() + ".txt";
+    public void loadGame(String name) {
+        String file = "./data/" + name + ".txt";
         try {
             mainGameMap = Reader.readMap(new File(file));
         } catch (IOException e) {

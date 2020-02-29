@@ -9,12 +9,15 @@ import java.awt.event.KeyAdapter;
 
 public class GameOptionPanels extends KeyAdapter  {
 
+    private boolean visibleSubmitButton = false;
+
     private GameConsoleInterface mainInterface;
 
     private ButtonPressed buttonActionListener;
 
     private JPanel optionArea;
-
+    private JTextField input;
+    private JButton submit;
     private JButton inventory;
     private JButton pickUp;
     private JButton dropItem;
@@ -77,6 +80,33 @@ public class GameOptionPanels extends KeyAdapter  {
         loadGame.setFocusable(false);
     }
 
+    // MODIFIES: this
+    // EFFECTS: if load text box is not visible it will open a new one an display it
+    public void loadGame() {
+        if (!visibleSubmitButton) {
+            visibleSubmitButton = true;
+            input = new JTextField(10);
+            submit = new JButton("Submit");
+            submit.addActionListener(new SubmitButton());
+            optionArea.add(input);
+            optionArea.add(submit);
+            mainInterface.resetMainFrame();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: if Submit button is pressed then gets input and remove button/text box
+    private class SubmitButton implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainInterface.loadGame(input.getText());
+            optionArea.remove(submit);
+            optionArea.remove(input);
+            mainInterface.resetMainFrame();
+            visibleSubmitButton = false;
+        }
+    }
+
     private class ButtonPressed implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -95,7 +125,7 @@ public class GameOptionPanels extends KeyAdapter  {
                     mainInterface.saveGame();
                     break;
                 case "Load Game" :
-                    mainInterface.loadGame();
+                    loadGame();
                     break;
                 default:
                     displayAction(pressed);
@@ -109,6 +139,7 @@ public class GameOptionPanels extends KeyAdapter  {
             }
 
         }
+
     }
 }
 
