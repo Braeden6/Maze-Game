@@ -9,23 +9,18 @@ import persistence.Reader;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.LinkedList;
-import java.util.Scanner;
 import java.util.Random;
 
 //This is the main game application
 public class GameConsoleInterface extends JFrame {
 
     private static final int INTERVAL = 20;
-    private Scanner input;
     private Character mainCharacter;
     private boolean displayInventory = false;
     private GameMap mainGameMap;
@@ -33,16 +28,16 @@ public class GameConsoleInterface extends JFrame {
     private GamePanel gp;
     private DisplayInventory dp;
 
+    //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private JPanel enterName;
+    JTextField nameInput;
+    JButton submit;
+
     // EFFECTS: initializes scanner and starts main loop
     public GameConsoleInterface() {
         super("Search Game");
-        input = new Scanner(System.in);
         rand = new Random();
-        generateStartOfGame();
-        initializeGraphics();
-        addKeyListener(new KeyHandler());
-        validate();
-        addTimer();
+        initializeGame();
     }
 
     // EFFECTS: reset visibility and focus of the main frame
@@ -56,25 +51,60 @@ public class GameConsoleInterface extends JFrame {
     // EFFECTS:  initializes a timer that updates game each
     //           INTERVAL milliseconds
     private void addTimer() {
-        Timer t = new Timer(INTERVAL, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                gp.repaint();
-                if (displayInventory) {
-                    dp.repaint();
-                }
-
+        Timer t = new Timer(INTERVAL, ae -> {
+            gp.repaint();
+            if (displayInventory) {
+                dp.repaint();
             }
+
         });
         t.start();
     }
 
     // MODIFIES: this
-    // EFFECTS: creates main character and displays location, creates keys at random locations and displays location,
-    // then prints out input options
-    private void generateStartOfGame() {
-        System.out.println("Enter the name of your character");
-        String name = input.next();
+    // EFFECTS: initializes the JFrame of the app
+    private void initializeGame() {
+        setLayout(new BorderLayout());
+        // 215 for the buttons at the bottom
+        setSize(400, 400);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        enterName = new JPanel();
+        enterName.setLayout(new GridLayout(0,1));
+        enterName.setSize(0, 0);
+        nameInput = new JTextField(10);
+
+        submit = new JButton("Submit");
+
+        submit.addActionListener(e -> {
+            String name = nameInput.getText();
+            generateGame(name);
+            addGraphics();
+        });
+        addLabels();
+        add(enterName, BorderLayout.SOUTH);
+        setVisible(true);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: add text to the JFrame used to enter name
+    private void addLabels() {
+        JLabel label1 = new JLabel("  Enter Character");
+        JLabel label2 = new JLabel("    Name Below");
+        JLabel label3 = new JLabel();
+        label1.setFont(new Font("Monospaced", Font.BOLD, 35));
+        label2.setFont(new Font("Monospaced", Font.BOLD, 35));
+        enterName.add(label1);
+        enterName.add(label2);
+        enterName.add(label3);
+        enterName.add(nameInput);
+        enterName.add(submit);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: generates GameMap, Keys, Traps, and Character, based off given name
+    private void generateGame(String name) {
         mainGameMap = new GameMap(name);
         mainCharacter = mainGameMap.getMainCharacter();
         addTraps();
@@ -82,18 +112,19 @@ public class GameConsoleInterface extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes the JFrame of the app
-    private void initializeGraphics() {
-        setLayout(new BorderLayout());
-        // 215 for the buttons at the bottom
+    // EFFECTS: remove name input box and add GamePanel and DisplayInventory
+    private void addGraphics() {
+        remove(enterName);
         setSize(GameMap.SCREEN_SIZE_WIDTH + 30, GameMap.SCREEN_SIZE_HEIGHT + 215);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         new GameOptionPanels(this);
         gp =  new GamePanel(this, mainGameMap);
         dp = new DisplayInventory(this, mainCharacter);
-        setLocationRelativeTo(null);
-        setVisible(true);
+        resetMainFrame();
+        addKeyListener(new KeyHandler());
+        addTimer();
     }
+
+
 
     // EFFECTS: ends game if a trap has been set off
     public boolean trapSetOff() {
@@ -127,7 +158,6 @@ public class GameConsoleInterface extends JFrame {
             displayInventory = false;
         }
         setVisible(true);
-
     }
 
     // EFFECTS: asks for input of file name and saves the current state of the game
