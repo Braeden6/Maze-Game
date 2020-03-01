@@ -1,8 +1,8 @@
 package model;
 
 //Key is an item you can find in the maze
-public class Key {
-    public static final int REACH = 40; // 5 is a randomly selected number, might need to be updated
+public class Key implements Item {
+    public static final int REACH = 28;
 
     private String itemName;
     private int locationX;
@@ -69,6 +69,4 @@ public class Key {
         setLocation(locationX,locationY);
     }
 
-    // !!!
-    //addition of graphics will need to be added
 }

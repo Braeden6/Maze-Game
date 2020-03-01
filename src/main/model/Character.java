@@ -2,10 +2,13 @@ package model;
 
 import java.util.LinkedList;
 
+import static java.lang.Math.*;
+
 // This class is the main character that has an inventory and a move-able location
 public class Character {
     public static final int MOVEMENT_DISTANCE = 10;
     public static final int MAX_SIZE_OF_INVENTORY = 6;
+    public static final int VIEW_DISTANCE = 125;
 
     private LinkedList<Key> inventory;
     private String name;
@@ -126,4 +129,14 @@ public class Character {
         droppedItem.dropItem(locationX,locationY);
         return droppedItem;
     }
+
+    // EFFECTS: returns true if the character distance from the item is less then VIEW_DISTANCE
+    public boolean isInViewDistance(Item item) {
+        int x = item.getLocationX();
+        int y = item.getLocationY();
+        int d = (int) sqrt(pow(locationX - x, 2) + pow(locationY - y, 2));
+        return d <= VIEW_DISTANCE;
+    }
+
+
 }

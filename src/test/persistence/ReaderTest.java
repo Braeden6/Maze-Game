@@ -59,10 +59,10 @@ public class ReaderTest {
             assertEquals(876,onFloorKeys.get(1).getLocationY());
             assertFalse(onFloorKeys.get(1).isPickedUp());
             //test onFloorTraps
-            assertEquals(400,onFloorTraps.get(0).getCenterX());
-            assertEquals(250,onFloorTraps.get(0).getCenterY());
-            assertEquals(350,onFloorTraps.get(1).getCenterX());
-            assertEquals(435,onFloorTraps.get(1).getCenterY());
+            assertEquals(400,onFloorTraps.get(0).getLocationX());
+            assertEquals(250,onFloorTraps.get(0).getLocationY());
+            assertEquals(350,onFloorTraps.get(1).getLocationX());
+            assertEquals(435,onFloorTraps.get(1).getLocationY());
         } catch (IOException e) {
             fail("IOException should not have been thrown");
         }
@@ -89,10 +89,10 @@ public class ReaderTest {
             assertEquals(876,onFloorKeys.get(1).getLocationY());
             assertFalse(onFloorKeys.get(1).isPickedUp());
             //test onFloorTraps
-            assertEquals(400,onFloorTraps.get(0).getCenterX());
-            assertEquals(250,onFloorTraps.get(0).getCenterY());
-            assertEquals(350,onFloorTraps.get(1).getCenterX());
-            assertEquals(435,onFloorTraps.get(1).getCenterY());
+            assertEquals(400,onFloorTraps.get(0).getLocationX());
+            assertEquals(250,onFloorTraps.get(0).getLocationY());
+            assertEquals(350,onFloorTraps.get(1).getLocationX());
+            assertEquals(435,onFloorTraps.get(1).getLocationY());
         } catch (IOException e) {
             fail("IOException should not have been thrown");
         }

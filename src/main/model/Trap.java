@@ -2,8 +2,8 @@ package model;
 
 import java.util.Random;
 
-public class Trap {
-    public static final int DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP = 20;
+public class Trap implements Item {
+    public static final int DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP = 24;
 
     private int centerX;
     private int centerY;
@@ -35,12 +35,12 @@ public class Trap {
     }
 
     // EFFECTS: returns x center of trap
-    public int getCenterX() {
+    public int getLocationX() {
         return centerX;
     }
 
     // EFFECTS: returns y center of trap
-    public int getCenterY() {
+    public int getLocationY() {
         return centerY;
     }
 }

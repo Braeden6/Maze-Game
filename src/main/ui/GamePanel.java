@@ -10,6 +10,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 public class GamePanel extends JPanel {
 
     private BufferedImage keyImage;
@@ -28,9 +31,9 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawCharacter(g);
         drawTraps(g);
         drawKeys(g);
+        drawCharacter(g);
     }
 
     // MODIFIES: this
@@ -50,19 +53,21 @@ public class GamePanel extends JPanel {
         int x = mainGameMap.getMainCharacter().getLocationX();
         int y = mainGameMap.getMainCharacter().getLocationY();
         g.setColor(new Color(0x000000));
-        g.drawOval(x,y,8,8);
+        //bottom half body
+        g.drawLine(x,y,x,y + 4);
+        //top half body
+        g.drawLine(x,y,x,y - 4);
+        //right leg
+        g.drawLine(x,y + 4,x + 12,y + 14);
+        //left leg
+        g.drawLine(x,y + 4,x - 12,y + 14);
+        //right arm
+        g.drawLine(x,y - 2,x + 14,y);
         //left arm
-        g.drawLine(x + 4,y + 8,x,y + 15);
-        // right arm
-        g.drawLine(x + 4,y + 8,x + 8,y + 14);
-        //body
-        g.drawLine(x + 4,y + 8,x + 4,y + 14);
-        // left leg
-        g.drawLine(x + 4,y + 14,x,y + 22);
-        // right leg
-        g.drawLine(x + 4,y + 14,x + 8,y + 22);
+        g.drawLine(x,y - 2,x - 14,y);
+        //head
+        g.fillOval(x - 5,y - 14, 11, 11);
     }
-
 
     // MODIFIES: g
     // EFFECTS: draw traps in mainGameMap onto g
@@ -76,10 +81,19 @@ public class GamePanel extends JPanel {
     // MODIFIES: g
     // EFFECTS: draw Trap t onto g
     private void drawTrap(Graphics g, Trap t) {
-        int x = t.getCenterX() - (Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP / 2);
-        int y = t.getCenterY() - (Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP / 2);
-        int size  = Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP / 2;
-        g.fillOval(x,y,size,size);
+        if (mainGameMap.getMainCharacter().isInViewDistance(t)) {
+            int size = 8;
+            int x = t.getLocationX();
+            int y = t.getLocationY();
+            g.drawLine(x,y,x + size,y + size);
+            g.drawLine(x,y,x,y + (int) sqrt(2 * pow(size,2)));
+            g.drawLine(x,y,x - size,y + size);
+            g.drawLine(x,y,x - size,y - size);
+            g.drawLine(x,y,x, y - (int) sqrt(2 * pow(size,2)));
+            g.drawLine(x,y,x + size,y - size);
+            g.drawLine(x,y,x - (int) sqrt(2 * pow(size,2)),y);
+            g.drawLine(x,y,x + (int) sqrt(2 * pow(size,2)),y);
+        }
     }
 
     // MODIFIES: g
@@ -94,11 +108,11 @@ public class GamePanel extends JPanel {
     // MODIFIES: g
     // EFFECTS: draw Key k onto g
     private void drawKey(Graphics g, Key k) {
-        int x = k.getLocationX();
-        int y = k.getLocationY();
-        int size  = Key.REACH / 2;
-        g.drawImage(keyImage,x,y,size,size,null);
-       // g.fillOval(x,y,size,size);
+        if (mainGameMap.getMainCharacter().isInViewDistance(k)) {
+            int x = k.getLocationX();
+            int y = k.getLocationY();
+            g.drawImage(keyImage,x - 13,y - 13,32,26,null);
+        }
     }
 
     // EFFECTS: updates mainGameMap and mainInterface to g and m
@@ -107,7 +121,8 @@ public class GamePanel extends JPanel {
         mainInterface = g;
     }
 
-    //EFFECTS: displays a game string
+    // MODIFIES: this
+    //EFFECTS: displays a game string at the top of the JPanel
     public void endGame() {
         JLabel endGame = new JLabel("Game Over");
         endGame.setFont(new Font("Monospaced", Font.BOLD, 50));

@@ -14,8 +14,8 @@ public class TrapTest {
     @BeforeEach
     void runBefore() {
         testTrap = new Trap();
-        x = testTrap.getCenterX();
-        y = testTrap.getCenterY();
+        x = testTrap.getLocationX();
+        y = testTrap.getLocationY();
     }
 
     @Test

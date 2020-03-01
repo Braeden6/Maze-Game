@@ -122,9 +122,9 @@ public class GameMap implements Saveable {
     // EFFECTS: writes the Key list to printWriter
     private void saveTraps(PrintWriter printWriter, ArrayList<Trap> traps) {
         for (Trap t : traps) {
-            printWriter.print(t.getCenterX());
+            printWriter.print(t.getLocationX());
             printWriter.print(Reader.DELIMITER);
-            printWriter.print(t.getCenterY());
+            printWriter.print(t.getLocationY());
             printWriter.print(Reader.LIST_DELIMITER);
         }
         printWriter.print(Reader.CLASS_DELIMITER);
