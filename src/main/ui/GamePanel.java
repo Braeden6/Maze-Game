@@ -107,6 +107,10 @@ public class GamePanel extends JPanel {
         mainInterface = g;
     }
 
-
-
+    //EFFECTS: displays a game string
+    public void endGame() {
+        JLabel endGame = new JLabel("Game Over");
+        endGame.setFont(new Font("Monospaced", Font.BOLD, 50));
+        add(endGame, BorderLayout.CENTER);
+    }
 }

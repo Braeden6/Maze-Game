@@ -27,11 +27,14 @@ public class GameConsoleInterface extends JFrame {
     private Random rand;
     private GamePanel gp;
     private DisplayInventory dp;
+    private GameOptionPanels gameOption;
+
+    private KeyHandler movement;
 
     //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private JPanel enterName;
-    JTextField nameInput;
-    JButton submit;
+    private JTextField nameInput;
+    private JButton submit;
 
     // EFFECTS: initializes scanner and starts main loop
     public GameConsoleInterface() {
@@ -116,23 +119,26 @@ public class GameConsoleInterface extends JFrame {
     private void addGraphics() {
         remove(enterName);
         setSize(GameMap.SCREEN_SIZE_WIDTH + 30, GameMap.SCREEN_SIZE_HEIGHT + 215);
-        new GameOptionPanels(this);
+        setLocationRelativeTo(null);
+        gameOption = new GameOptionPanels(this);
         gp =  new GamePanel(this, mainGameMap);
         dp = new DisplayInventory(this, mainCharacter);
         resetMainFrame();
-        addKeyListener(new KeyHandler());
+        movement = new KeyHandler();
+        addKeyListener(movement);
         addTimer();
     }
 
 
 
-    // EFFECTS: ends game if a trap has been set off
-    public boolean trapSetOff() {
+    // EFFECTS: ends game and disables all actionListeners
+    public void trapSetOff() {
         if (mainGameMap.isTrapSetOff()) {
-            System.out.println("You hit a trap");
-            return false;
+            removeKeyListener(movement);
+            gameOption.endGame();
+            gp.endGame();
+            setVisible(true);
         }
-        return true;
     }
 
     // EFFECTS: loads game of given name

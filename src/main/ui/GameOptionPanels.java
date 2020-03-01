@@ -60,6 +60,17 @@ public class GameOptionPanels extends KeyAdapter  {
     }
 
     // MODIFIES: this
+    // EFFECTS: removes action listener from buttons
+    public void endGame() {
+        inventory.removeActionListener(buttonActionListener);
+        pickUp.removeActionListener(buttonActionListener);
+        dropItem.removeActionListener(buttonActionListener);
+        newKey.removeActionListener(buttonActionListener);
+        saveGame.removeActionListener(buttonActionListener);
+        loadGame.removeActionListener(buttonActionListener);
+    }
+
+    // MODIFIES: this
     // EFFECTS: instantiates each of the buttons
     private void initializeButtons() {
         inventory = new JButton("Inventory");
