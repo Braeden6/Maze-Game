@@ -28,6 +28,7 @@ public class GameConsoleInterface extends JFrame {
     private GamePanel gp;
     private DisplayInventory dp;
     private GameOptionPanels gameOption;
+    private Timer timer;
 
     private KeyHandler movement;
 
@@ -54,14 +55,16 @@ public class GameConsoleInterface extends JFrame {
     // EFFECTS:  initializes a timer that updates game each
     //           INTERVAL milliseconds
     private void addTimer() {
-        Timer t = new Timer(INTERVAL, ae -> {
+        timer = new Timer(INTERVAL, ae -> {
             gp.repaint();
+            trapSetOff();
+            gameWon();
             if (displayInventory) {
                 dp.repaint();
             }
 
         });
-        t.start();
+        timer.start();
     }
 
     // MODIFIES: this
@@ -136,7 +139,19 @@ public class GameConsoleInterface extends JFrame {
         if (mainGameMap.isTrapSetOff()) {
             removeKeyListener(movement);
             gameOption.endGame();
-            gp.endGame();
+            gp.endGame("Game Lost");
+            timer.stop();
+            setVisible(true);
+        }
+    }
+
+    // EFFECTS: ends game and disables all actionListeners
+    public void gameWon() {
+        if (mainGameMap.gameWon()) {
+            removeKeyListener(movement);
+            gameOption.endGame();
+            gp.endGame("Game Won");
+            timer.stop();
             setVisible(true);
         }
     }
@@ -233,7 +248,6 @@ public class GameConsoleInterface extends JFrame {
                 default:
                     break;
             }
-            trapSetOff();
         }
     }
 }

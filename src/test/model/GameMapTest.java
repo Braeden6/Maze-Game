@@ -66,5 +66,31 @@ public class GameMapTest {
         testTrap2.setTrapCenter(0,GameMap.SCREEN_SIZE_HEIGHT / 2);
         assertTrue(testMap.isTrapSetOff());
     }
+
+    @Test
+    void testGameOver1() {
+        assertFalse(testMap.gameWon());
+        for (int i = 0; i < GameMap.KEY_TO_WIN; i++) {
+            testMap.addGivenKey(new Key(800,800,"k"));
+        }
+        assertTrue(testMap.gameWon());
+    }
+
+    @Test
+    void testGameOver2() {
+        assertFalse(testMap.gameWon());
+        for (int i = 0; i < GameMap.KEY_TO_WIN / 2; i++) {
+            testMap.addGivenKey(new Key(800,800,"k"));
+        }
+        testMap.addGivenKey(new Key(400,350,"k"));
+        testMap.addGivenKey(new Key(600,350,"k"));
+        assertFalse(testMap.gameWon());
+        testMap.addGivenKey(new Key(400,350,"k"));
+        assertFalse(testMap.gameWon());
+        for (int i = 0; i < GameMap.KEY_TO_WIN / 2; i++) {
+            testMap.addGivenKey(new Key(800,800,"k"));
+        }
+        assertTrue(testMap.gameWon());
+    }
 }
 

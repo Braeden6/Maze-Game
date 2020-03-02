@@ -123,8 +123,8 @@ public class GamePanel extends JPanel {
 
     // MODIFIES: this
     //EFFECTS: displays a game string at the top of the JPanel
-    public void endGame() {
-        JLabel endGame = new JLabel("Game Over");
+    public void endGame(String s) {
+        JLabel endGame = new JLabel(s);
         endGame.setFont(new Font("Monospaced", Font.BOLD, 50));
         add(endGame, BorderLayout.CENTER);
     }
