@@ -69,7 +69,4 @@ public class DisplayInventory extends JPanel {
         }
         return inventory;
     }
-
-
-
 }
