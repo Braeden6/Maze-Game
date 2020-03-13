@@ -97,6 +97,7 @@ public class GameMapTest {
     void testSamePlace() {
         assertFalse(testMap.isSameLocation(key1,key2));
         assertTrue(testMap.isSameLocation(key1,key1));
+        assertFalse(testMap.isSameLocation(key2,key1));
 
     }
 }
