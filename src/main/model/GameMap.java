@@ -101,7 +101,7 @@ public class GameMap implements Saveable {
     }
 
     // EFFECTS: returns true if they 2 keys have the same x and y coords
-    private boolean isSameLocation(Key k1, Key k2) {
+    public boolean isSameLocation(Key k1, Key k2) {
         int k1x = k1.getLocationX();
         int k2x = k2.getLocationX();
         int k1y = k1.getLocationY();

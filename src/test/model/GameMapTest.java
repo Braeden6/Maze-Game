@@ -92,5 +92,12 @@ public class GameMapTest {
         }
         assertTrue(testMap.gameWon());
     }
+
+    @Test
+    void testSamePlace() {
+        assertFalse(testMap.isSameLocation(key1,key2));
+        assertTrue(testMap.isSameLocation(key1,key1));
+
+    }
 }
 
