@@ -32,3 +32,21 @@ Things this game will hopefully include:
 - As a user, I want to be able to save my current game, including character (inventory, location and name) 
   and map (item locations).
 - As a user, I want to be able to resume a game that I have saved.
+
+## **Instructions for Grader**
+- After starting up the game you can enter the name of the main character. This name will be what is used to 
+save the game. If it is the same name already used it will save over the previous save.
+- You can then move the character with a/w/s/d (a is left, w is up, s is down, d is right)
+- You can press the inventory button to toggle off and on a window that shows what you are currently
+holding. (max of 6 keys in your inventory)
+- You can press the pick up item button to pick up any item within reach of the main character
+- You can press the drop item button to drop the first item in your inventory
+- You can press the add key button to add a key to the game map list of keys on the floor.
+- You can press the save game button to save all keys/ inventory/ and character location to a file
+with the character name entered
+- You can press the load game button to open a save of the name entered in the field that pops up.
+If there is no save under that name nothing will occur. 
+- Touching a trap will cause you to lose the game.
+- Dropping 4 keys in the same location will win the game.
+- There is also a flashlight that can be found. If found and picked up it will increase the 
+main character's view distance. (however, it will not take an inventory slot)
