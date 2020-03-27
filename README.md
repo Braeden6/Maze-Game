@@ -48,5 +48,3 @@ with the character name entered
 If there is no save under that name nothing will occur. 
 - Touching a trap will cause you to lose the game.
 - Dropping 4 keys in the same location will win the game.
-- There is also a flashlight that can be found. If found and picked up it will increase the 
-main character's view distance. (however, it will not take an inventory slot)
