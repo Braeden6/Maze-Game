@@ -10,11 +10,12 @@ public class KeyTest {
 
     @BeforeEach
     void runBefore() {
-        testKey = new Key( 100, 200, "testKey");
+        testKey = new Key( 0, 0, "testKey");
     }
 
     @Test
     void testisPickUp() {
+        testKey.setLocation(100,200);
         assertEquals("testKey", testKey.getItemName());
         assertFalse(testKey.isAbleToPickUp(101 + Key.REACH,201 + Key.REACH));
         assertFalse(testKey.isAbleToPickUp(99 - Key.REACH,199 - Key.REACH));

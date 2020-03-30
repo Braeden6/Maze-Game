@@ -18,7 +18,7 @@ public class Character {
 
     // EFFECTS: Set character name to the given name and places him at the starting location
     public Character(String name) {
-        inventory = new LinkedList<Item>();
+        inventory = new LinkedList<>();
         this.name = name;
         locationX = 0;
         locationY = GameMap.SCREEN_SIZE_HEIGHT / 2;

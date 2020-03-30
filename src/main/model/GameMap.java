@@ -21,7 +21,7 @@ public class GameMap implements Saveable {
 
 
     public GameMap(String name) {
-        onFloorKeys = new LinkedList<Item>();
+        onFloorKeys = new LinkedList<>();
         mainCharacter = new Character(name);
         onFloorTraps =  new ArrayList<>();
     }
