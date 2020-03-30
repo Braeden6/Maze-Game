@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CharacterTest {
     private Character testCharacter;
     private ArrayList<Key> testInventory;
-    private LinkedList<Key> testFloor;
+    private LinkedList<Item> testFloor;
     private Key key1;
     private Key key2;
 
@@ -19,7 +19,7 @@ class CharacterTest {
     void runBefore() {
         testCharacter = new Character("Bob");
         testInventory = new ArrayList<>();
-        testFloor = new LinkedList<>();
+        testFloor = new LinkedList<Item>();
     }
 
     @Test

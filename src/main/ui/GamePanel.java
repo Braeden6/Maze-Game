@@ -1,7 +1,7 @@
 package ui;
 
 import model.GameMap;
-import model.Key;
+import model.Item;
 import model.Trap;
 
 import javax.imageio.ImageIO;
@@ -100,14 +100,14 @@ public class GamePanel extends JPanel {
     // EFFECTS: draw keys in mainGameMap onto g
     private void drawKeys(Graphics g) {
         g.setColor(Color.YELLOW);
-        for (Key k : mainGameMap.getOnFloorKeys()) {
+        for (Item k : mainGameMap.getOnFloorKeys()) {
             drawKey(g, k);
         }
     }
 
     // MODIFIES: g
     // EFFECTS: draw Key k onto g
-    private void drawKey(Graphics g, Key k) {
+    private void drawKey(Graphics g, Item k) {
         if (mainGameMap.getMainCharacter().isInViewDistance(k)) {
             int x = k.getLocationX();
             int y = k.getLocationY();

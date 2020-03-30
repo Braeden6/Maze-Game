@@ -42,7 +42,7 @@ class WriterTest {
         try {
             GameMap map = Reader.readMap(new File("./data/testMap.txt"));
             Character character = map.getMainCharacter();
-            LinkedList<Key> onFloorKeys = map.getOnFloorKeys();
+            LinkedList<Item> onFloorKeys = map.getOnFloorKeys();
             //test character info
             assertEquals("Jeff", character.getCharacterName());
             assertEquals(0,character.getLocationX());

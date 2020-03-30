@@ -1,6 +1,7 @@
 package persistence;
 
 import model.GameMap;
+import model.Item;
 import model.Key;
 import model.Trap;
 
@@ -95,7 +96,7 @@ public class Reader {
 
     // EFFECTS: adds keys to list until a '/' is reached
     // MODIFIES: Given key list
-    private static void addKeys(ArrayList<String> components, LinkedList<Key> listOfKeys) {
+    private static void addKeys(ArrayList<String> components, LinkedList<Item> listOfKeys) {
         Key createdKey;
         String name;
         int locationX;
@@ -123,7 +124,7 @@ public class Reader {
             locationX = Integer.parseInt(getFirstItem(components));
             locationY =  Integer.parseInt(getFirstItem(components));
             createdTrap = new Trap();
-            createdTrap.setTrapCenter(locationX,locationY);
+            createdTrap.setLocation(locationX,locationY);
             listOfKeys.add(createdTrap);
         }
         components.remove(0);

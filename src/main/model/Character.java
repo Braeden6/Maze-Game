@@ -10,7 +10,7 @@ public class Character {
     public static final int MAX_SIZE_OF_INVENTORY = 6;
     public static final int VIEW_DISTANCE = 125;
 
-    private LinkedList<Key> inventory;
+    private LinkedList<Item> inventory;
     private String name;
     private int locationX;
     private int locationY;
@@ -18,7 +18,7 @@ public class Character {
 
     // EFFECTS: Set character name to the given name and places him at the starting location
     public Character(String name) {
-        inventory = new LinkedList<>();
+        inventory = new LinkedList<Item>();
         this.name = name;
         locationX = 0;
         locationY = GameMap.SCREEN_SIZE_HEIGHT / 2;
@@ -73,9 +73,9 @@ public class Character {
     // MODIFIES: this
     // EFFECTS: checks if inventory is full and if it can pick up the item. If both are true it add item
     // to inventory and returns true as if it had picked up item
-    public boolean isPickedUpItem(LinkedList<Key> itemOnFloor) {
+    public boolean isPickedUpItem(LinkedList<Item> itemOnFloor) {
         if (!isInventoryFull()) {
-            for (Key k : itemOnFloor) {
+            for (Item k : itemOnFloor) {
                 if (k.isAbleToPickUp(locationX,locationY)) {
                     k.pickUpItem();
                     inventory.add(k);
@@ -108,7 +108,7 @@ public class Character {
     }
 
     // EFFECTS: returns list of items in inventory
-    public LinkedList<Key> getInventory() {
+    public LinkedList<Item> getInventory() {
         return inventory;
     }
 
@@ -123,8 +123,8 @@ public class Character {
     // REQUIRES: index must have item in the list position
     // MODIFIES: this
     // EFFECTS: removes item from inventory, marks item as dropped, and changes location of item as character's current
-    public Key dropItem(int index) {
-        Key droppedItem = inventory.get(index);
+    public Item dropItem(int index) {
+        Item droppedItem = inventory.get(index);
         inventory.remove(index);
         droppedItem.dropItem(locationX,locationY);
         return droppedItem;

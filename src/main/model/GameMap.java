@@ -15,13 +15,13 @@ public class GameMap implements Saveable {
     public static final int NUMBER_OF_TRAPS = 20;
     public static final int KEY_TO_WIN = 4;
 
-    private LinkedList<Key> onFloorKeys;
+    private LinkedList<Item> onFloorKeys;
     private ArrayList<Trap> onFloorTraps;
     private Character mainCharacter;
 
 
     public GameMap(String name) {
-        onFloorKeys = new LinkedList<>();
+        onFloorKeys = new LinkedList<Item>();
         mainCharacter = new Character(name);
         onFloorTraps =  new ArrayList<>();
     }
@@ -34,7 +34,7 @@ public class GameMap implements Saveable {
 
     // MODIFIES: this
     // EFFECTS: add given key to the end of the list
-    public void addGivenKey(Key givenKey) {
+    public void addGivenKey(Item givenKey) {
         onFloorKeys.add(givenKey);
     }
 
@@ -47,7 +47,7 @@ public class GameMap implements Saveable {
 
 
     // EFFECTS: returns the list of keys
-    public LinkedList<Key> getOnFloorKeys() {
+    public LinkedList<Item> getOnFloorKeys() {
         return onFloorKeys;
     }
 
@@ -63,8 +63,8 @@ public class GameMap implements Saveable {
 
 
     // EFFECTS: returns item and removes it from the list that has the given name or a new one with name invalid
-    public Key getItem(String name) {
-        for (Key k : onFloorKeys) {
+    public Item getItem(String name) {
+        for (Item k : onFloorKeys) {
             if (k.getItemName().equals(name)) {
                 onFloorKeys.remove(k);
                 return k;
@@ -86,12 +86,12 @@ public class GameMap implements Saveable {
 
     // EFFECTS: returns true if keys in the same location is  >= KEY_TO_WIN
     public boolean gameWon() {
-        Key checkingKey;
+        Item checkingKey;
         int amountOfSameLocation = 0;
         for (int i = 0; amountOfSameLocation < KEY_TO_WIN && i < onFloorKeys.size(); i++) {
             checkingKey = onFloorKeys.get(i);
             amountOfSameLocation = 0;
-            for (Key k : onFloorKeys) {
+            for (Item k : onFloorKeys) {
                 if (isSameLocation(k, checkingKey)) {
                     amountOfSameLocation++;
                 }
@@ -101,7 +101,7 @@ public class GameMap implements Saveable {
     }
 
     // EFFECTS: returns true if they 2 keys have the same x and y coords
-    public boolean isSameLocation(Key k1, Key k2) {
+    public boolean isSameLocation(Item k1, Item k2) {
         int k1x = k1.getLocationX();
         int k2x = k2.getLocationX();
         int k1y = k1.getLocationY();
@@ -130,8 +130,8 @@ public class GameMap implements Saveable {
 
     // MODIFIES: printWriter
     // EFFECTS: writes the Key list to printWriter
-    private void saveKeys(PrintWriter printWriter, LinkedList<Key> keys) {
-        for (Key k : keys) {
+    private void saveKeys(PrintWriter printWriter, LinkedList<Item> keys) {
+        for (Item k : keys) {
             printWriter.print(k.getItemName());
             printWriter.print(Reader.DELIMITER);
             printWriter.print(k.getLocationX());

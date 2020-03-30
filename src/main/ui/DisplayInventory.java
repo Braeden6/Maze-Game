@@ -2,7 +2,7 @@ package ui;
 
 import model.Character;
 import model.GameMap;
-import model.Key;
+import model.Item;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,10 +60,10 @@ public class DisplayInventory extends JPanel {
     }
 
     //EFFECTS: displays key's names in given list. If they are the ground then the location will be displayed also.
-    public ArrayList<String> getKeysString(LinkedList<Key> listOfKeys) {
+    public ArrayList<String> getKeysString(LinkedList<Item> listOfKeys) {
         ArrayList<String> inventory = new ArrayList<>();
         String name;
-        for (Key k : listOfKeys) {
+        for (Item k : listOfKeys) {
             name = k.getItemName();
             inventory.add("Slot" + (listOfKeys.indexOf(k) + 1) + " has " + name);
         }

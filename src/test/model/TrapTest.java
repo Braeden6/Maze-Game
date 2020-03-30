@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class TrapTest {
-    Trap testTrap;
-    int x;
-    int y;
+    private Trap testTrap;
+    private int x;
+    private int y;
 
     @BeforeEach
     void runBefore() {
@@ -25,7 +25,7 @@ public class TrapTest {
         assertFalse(testTrap.isTrapSetOff(x,y - 1 - Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP));
         assertFalse(testTrap.isTrapSetOff(x + 1 + Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP,y));
         assertFalse(testTrap.isTrapSetOff(x,y + 1 + Trap.DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP));
-        testTrap.setTrapCenter( 250, 245);
+        testTrap.setLocation( 250, 245);
         assertFalse(testTrap.isTrapSetOff(x,y));
     }
 }

@@ -1,11 +1,9 @@
 package persistence;
 
 
-import model.Character;
-import model.GameMap;
-import model.Trap;
-import model.Key;
+import model.*;
 
+import model.Character;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,8 +32,8 @@ public class ReaderTest {
             GameMap map = Reader.readMap(new File("./data/testMap1.txt"));
             Character character = map.getMainCharacter();
             ArrayList<Trap> onFloorTraps = map.getOnFloorTraps();
-            LinkedList<Key> onFloorKeys = map.getOnFloorKeys();
-            LinkedList<Key> inventory = character.getInventory();
+            LinkedList<Item> onFloorKeys = map.getOnFloorKeys();
+            LinkedList<Item> inventory = character.getInventory();
            //test character info
             assertEquals("Bobby", character.getCharacterName());
             assertEquals(456,character.getLocationX());
@@ -74,7 +72,7 @@ public class ReaderTest {
             GameMap map = Reader.readMap(new File("./data/testMap2.txt"));
             Character character = map.getMainCharacter();
             ArrayList<Trap> onFloorTraps = map.getOnFloorTraps();
-            LinkedList<Key> onFloorKeys = map.getOnFloorKeys();
+            LinkedList<Item> onFloorKeys = map.getOnFloorKeys();
             //test character info
             assertEquals("Fred", character.getCharacterName());
             assertEquals(1000,character.getLocationX());

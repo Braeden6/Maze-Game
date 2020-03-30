@@ -63,7 +63,7 @@ public class GameMapTest {
         testMap.addGivenTrap(testTrap2);
         assertEquals(testTrap,testMap.getOnFloorTraps().get(0));
         assertFalse(testMap.isTrapSetOff());
-        testTrap2.setTrapCenter(0,GameMap.SCREEN_SIZE_HEIGHT / 2);
+        testTrap2.setLocation(0,GameMap.SCREEN_SIZE_HEIGHT / 2);
         assertTrue(testMap.isTrapSetOff());
     }
 
