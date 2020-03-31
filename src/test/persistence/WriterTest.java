@@ -31,8 +31,8 @@ class WriterTest {
         testMap.addGivenTrap(new Trap());
         testMap.addGivenTrap(new Trap());
         // add 2 keys to game
-        testMap.addGivenKey(new Key(100,200, "testKey1"));
-        testMap.addGivenKey(new Key(250,900, "testKey2"));
+        testMap.addGivenItemToFloor(new Key(100,200, "testKey1"));
+        testMap.addGivenItemToFloor(new Key(250,900, "testKey2"));
     }
 
     @Test

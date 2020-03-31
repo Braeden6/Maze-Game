@@ -46,13 +46,32 @@ public abstract class Item {
     // REQUIRES: isPickUp == true
     // MODIFIES: this
     // EFFECTS: signals item as picked up
+    public void pickUpItem(Character character) {
+        pickedUp = true;
+        character.getInventory().add(this);
+    }
+
+    // REQUIRES: isPickUp == true
+    // MODIFIES: this
+    // EFFECTS: signals item as picked up
     public void pickUpItem() {
         pickedUp = true;
     }
 
+    // MODIFIES: this
+    // EFFECTS: drops item at location given
     public void dropItem(int locationX, int locationY) {
         this.locationX = locationX;
         this.locationY = locationY;
+        pickedUp = false;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: removes item from character inventory and drops it at
+    public void dropItem(Character character) {
+        character.getInventory().remove(this);
+        this.locationX = character.getLocationX();
+        this.locationY = character.getLocationY();
         pickedUp = false;
     }
 
@@ -60,8 +79,4 @@ public abstract class Item {
     public boolean isAbleToPickUp(int characterLocationX, int characterLocationY) {
         return isWithinRange(characterLocationX,characterLocationY,Key.REACH);
     }
-
-
-
-
 }

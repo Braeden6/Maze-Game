@@ -22,14 +22,14 @@ public class GameMapTest {
         key1 = new Key(100 ,100, "key1");
         key2 = new Key(1000 ,300, "key2");
         testKeyList.add(key1);
-        testMap.addGivenKey(key1);
+        testMap.addGivenItemToFloor(key1);
     }
 
     @Test
     void testAddKey() {
         assertEquals(testKeyList, testMap.getOnFloorKeys());
         testKeyList.add(key2);
-        testMap.addGivenKey(key2);
+        testMap.addGivenItemToFloor(key2);
         assertEquals(testKeyList, testMap.getOnFloorKeys());
         testKeyList.remove(1);
         testMap.removeIndexKey(1);
@@ -43,13 +43,13 @@ public class GameMapTest {
     void testSpecificKey() {
         assertEquals("Bob", testMap.getMainCharacter().getCharacterName());
         for (int i = 0; i < 4 ; i++) {
-            testMap.addGivenKey(key1);
+            testMap.addGivenItemToFloor(key1);
         }
-        testMap.addGivenKey(key2);
+        testMap.addGivenItemToFloor(key2);
         for (int i = 0; i < 6 ; i++) {
-            testMap.addGivenKey(key1);
+            testMap.addGivenItemToFloor(key1);
         }
-        testMap.addGivenKey(key2);
+        testMap.addGivenItemToFloor(key2);
         assertEquals(key2,testMap.getItem("key2"));
         assertEquals(key2,testMap.getItem("key2"));
         assertEquals("invalid",testMap.getItem("key2").getItemName());
@@ -71,7 +71,7 @@ public class GameMapTest {
     void testGameOver1() {
         assertFalse(testMap.gameWon());
         for (int i = 0; i < GameMap.KEY_TO_WIN; i++) {
-            testMap.addGivenKey(new Key(800,800,"k"));
+            testMap.addGivenItemToFloor(new Key(800,800,"k"));
         }
         assertTrue(testMap.gameWon());
     }
@@ -80,15 +80,15 @@ public class GameMapTest {
     void testGameOver2() {
         assertFalse(testMap.gameWon());
         for (int i = 0; i < GameMap.KEY_TO_WIN / 2; i++) {
-            testMap.addGivenKey(new Key(800,800,"k"));
+            testMap.addGivenItemToFloor(new Key(800,800,"k"));
         }
-        testMap.addGivenKey(new Key(400,350,"k"));
-        testMap.addGivenKey(new Key(600,350,"k"));
+        testMap.addGivenItemToFloor(new Key(400,350,"k"));
+        testMap.addGivenItemToFloor(new Key(600,350,"k"));
         assertFalse(testMap.gameWon());
-        testMap.addGivenKey(new Key(400,350,"k"));
+        testMap.addGivenItemToFloor(new Key(400,350,"k"));
         assertFalse(testMap.gameWon());
         for (int i = 0; i < GameMap.KEY_TO_WIN / 2; i++) {
-            testMap.addGivenKey(new Key(800,800,"k"));
+            testMap.addGivenItemToFloor(new Key(800,800,"k"));
         }
         assertTrue(testMap.gameWon());
     }

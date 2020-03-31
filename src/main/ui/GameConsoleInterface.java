@@ -1,9 +1,7 @@
 package ui;
 
+import model.*;
 import model.Character;
-import model.GameMap;
-import model.Key;
-import model.Trap;
 import persistence.Writer;
 import persistence.Reader;
 
@@ -115,6 +113,7 @@ public class GameConsoleInterface extends JFrame {
         mainCharacter = mainGameMap.getMainCharacter();
         addTraps();
         addKeys(GameMap.NUMBER_OF_KEYS);
+        addFlashlights(GameMap.NUMBER_OF_FLASHLIGHTS);
     }
 
     // MODIFIES: this
@@ -197,7 +196,7 @@ public class GameConsoleInterface extends JFrame {
     // EFFECTS: if character inventory is not empty then first item in inventory will be dropped
     public void dropItem() {
         if (!mainCharacter.getInventory().isEmpty()) {
-            mainGameMap.addGivenKey(mainCharacter.dropItem(0));
+            mainGameMap.addGivenItemToFloor(mainCharacter.dropItem(0));
         }
     }
 
@@ -208,14 +207,26 @@ public class GameConsoleInterface extends JFrame {
     }
 
     // REQUIRES: amount > 0
-    // EFFECTS: adds amount of keys to the ground at random locations and then displays all the key locations
+    // EFFECTS: adds amount of keys to the ground at random locations
     public void addKeys(int amount) {
         int w = GameMap.SCREEN_SIZE_WIDTH;
         int h = GameMap.SCREEN_SIZE_HEIGHT;
         String keyName;
         for (int i = 1; i <= amount; i++) {
-            keyName = "key" + (mainGameMap.getOnFloorKeys().size() + 1);
-            mainGameMap.addGivenKey(new Key(rand.nextInt(w), rand.nextInt(h), keyName));
+            keyName = "key" + i;
+            mainGameMap.addGivenItemToFloor(new Key(rand.nextInt(w), rand.nextInt(h), keyName));
+        }
+    }
+
+    // REQUIRES: amount > 0
+    // EFFECTS: adds amount of flashlights to the ground at random locations
+    public void addFlashlights(int amount) {
+        int w = GameMap.SCREEN_SIZE_WIDTH;
+        int h = GameMap.SCREEN_SIZE_HEIGHT;
+        String keyName;
+        for (int i = 1; i <= amount; i++) {
+            keyName = "flashlight" + i;
+            mainGameMap.addGivenItemToFloor(new Flashlight(keyName, rand.nextInt(w), rand.nextInt(h)));
         }
     }
 

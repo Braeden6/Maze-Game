@@ -141,9 +141,9 @@ class CharacterTest {
     @Test
     void testIsViewDistance() {
         key1 = new Key(100,100,"key");
-        testCharacter.setLocation(100 + Character.VIEW_DISTANCE + 10 ,100);
+        testCharacter.setLocation(100 + testCharacter.getViewDistance() + 10 ,100);
         assertFalse(testCharacter.isInViewDistance(key1));
-        testCharacter.setLocation(100 + Character.VIEW_DISTANCE ,100);
+        testCharacter.setLocation(100 + testCharacter.getViewDistance() ,100);
         assertTrue(testCharacter.isInViewDistance(key1));
     }
 }

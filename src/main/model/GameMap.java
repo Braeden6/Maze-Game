@@ -12,6 +12,7 @@ public class GameMap implements Saveable {
     public static final int SCREEN_SIZE_WIDTH = 970;
     public static final int SCREEN_SIZE_HEIGHT = 785;
     public static final int NUMBER_OF_KEYS = 10;
+    public static final int NUMBER_OF_FLASHLIGHTS = 2;
     public static final int NUMBER_OF_TRAPS = 20;
     public static final int KEY_TO_WIN = 4;
 
@@ -34,7 +35,7 @@ public class GameMap implements Saveable {
 
     // MODIFIES: this
     // EFFECTS: add given key to the end of the list
-    public void addGivenKey(Item givenKey) {
+    public void addGivenItemToFloor(Item givenKey) {
         onFloorKeys.add(givenKey);
     }
 

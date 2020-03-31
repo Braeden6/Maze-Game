@@ -8,20 +8,38 @@ import static java.lang.Math.*;
 public class Character {
     public static final int MOVEMENT_DISTANCE = 10;
     public static final int MAX_SIZE_OF_INVENTORY = 6;
-    public static final int VIEW_DISTANCE = 125;
+    public static final int STARTING_VIEW_DISTANCE = 125;
 
+    private int viewDistance;
     private LinkedList<Item> inventory;
     private String name;
     private int locationX;
     private int locationY;
 
-
     // EFFECTS: Set character name to the given name and places him at the starting location
     public Character(String name) {
+        viewDistance = STARTING_VIEW_DISTANCE;
         inventory = new LinkedList<>();
         this.name = name;
         locationX = 0;
         locationY = GameMap.SCREEN_SIZE_HEIGHT / 2;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: increases view distance by given amount
+    public void increaseViewDistance(int increase) {
+        viewDistance += increase;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: decreases view distance by given amount
+    public void decreaseViewDistance(int decrease) {
+        viewDistance -= decrease;
+    }
+
+    //getter
+    public int getViewDistance() {
+        return viewDistance;
     }
 
     // EFFECTS: set location of main character
@@ -77,8 +95,7 @@ public class Character {
         if (!isInventoryFull()) {
             for (Item k : itemOnFloor) {
                 if (k.isAbleToPickUp(locationX,locationY)) {
-                    k.pickUpItem();
-                    inventory.add(k);
+                    k.pickUpItem(this);
                     itemOnFloor.remove(k);
                     return true;
                 }
@@ -125,8 +142,7 @@ public class Character {
     // EFFECTS: removes item from inventory, marks item as dropped, and changes location of item as character's current
     public Item dropItem(int index) {
         Item droppedItem = inventory.get(index);
-        inventory.remove(index);
-        droppedItem.dropItem(locationX,locationY);
+        droppedItem.dropItem(this);
         return droppedItem;
     }
 
@@ -135,7 +151,7 @@ public class Character {
         int x = item.getLocationX();
         int y = item.getLocationY();
         int d = (int) sqrt(pow(locationX - x, 2) + pow(locationY - y, 2));
-        return d <= VIEW_DISTANCE;
+        return d <= viewDistance;
     }
 
 
