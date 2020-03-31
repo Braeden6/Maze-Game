@@ -213,8 +213,7 @@ public class GameConsoleInterface extends JFrame {
         int h = GameMap.SCREEN_SIZE_HEIGHT;
         String keyName;
         for (int i = 1; i <= amount; i++) {
-            keyName = "key" + i;
-            mainGameMap.addGivenItemToFloor(new Key(rand.nextInt(w), rand.nextInt(h), keyName));
+            mainGameMap.addGivenItemToFloor(new Key(rand.nextInt(w), rand.nextInt(h), "key"));
         }
     }
 
@@ -225,8 +224,7 @@ public class GameConsoleInterface extends JFrame {
         int h = GameMap.SCREEN_SIZE_HEIGHT;
         String keyName;
         for (int i = 1; i <= amount; i++) {
-            keyName = "flashlight" + i;
-            mainGameMap.addGivenItemToFloor(new Flashlight(keyName, rand.nextInt(w), rand.nextInt(h)));
+            mainGameMap.addGivenItemToFloor(new Flashlight("flashlight", rand.nextInt(w), rand.nextInt(h)));
         }
     }
 

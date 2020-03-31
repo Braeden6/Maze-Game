@@ -10,6 +10,7 @@ public class Character {
     public static final int MAX_SIZE_OF_INVENTORY = 6;
     public static final int STARTING_VIEW_DISTANCE = 125;
 
+    private int keysInInventory;
     private int viewDistance;
     private LinkedList<Item> inventory;
     private String name;
@@ -18,11 +19,30 @@ public class Character {
 
     // EFFECTS: Set character name to the given name and places him at the starting location
     public Character(String name) {
+        keysInInventory = 0;
         viewDistance = STARTING_VIEW_DISTANCE;
         inventory = new LinkedList<>();
         this.name = name;
         locationX = 0;
         locationY = GameMap.SCREEN_SIZE_HEIGHT / 2;
+    }
+
+    //getter
+    public int getKeysInInventory() {
+        return keysInInventory;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: signals that a key was added to the inventory
+    public void keyAddedToInventory() {
+        keysInInventory++;
+        System.out.println(keysInInventory);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: signals that a key was added to the inventory
+    public void keyRemovedFromInventory() {
+        keysInInventory--;
     }
 
     // MODIFIES: this

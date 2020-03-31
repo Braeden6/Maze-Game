@@ -47,4 +47,15 @@ with the character name entered
 - You can press the load game button to open a save of the name entered in the field that pops up.
 If there is no save under that name nothing will occur. 
 - Touching a trap will cause you to lose the game.
-- Dropping 4 keys in the same location will win the game.
+
+~~- Dropping 4 keys in the same location will win the game.~~
+
+### Updates to game for phase 4
+- To win you now have to have 6 keys in your inventory
+- There are 2 flashlights around the map that you can pick up and drop, they do increase your view distance when 
+in your inventory
+
+## **Phase 4: Task 2**
+For task 2 of phase 4 I made a type hierarchy. I used a abstract class Item that was extended by: Key, Trap, 
+and Flashlight (which I fixed and updated to work, it will change view distance and now shows in 
+the inventory and can be dropped).

@@ -16,13 +16,15 @@ import static java.lang.Math.sqrt;
 public class GamePanel extends JPanel {
 
     private BufferedImage keyImage;
+    private BufferedImage flashlightImage;
     private GameConsoleInterface mainInterface;
     private GameMap mainGameMap;
 
     public GamePanel(GameConsoleInterface g, GameMap m) {
         mainInterface = g;
         mainGameMap = m;
-        loadImage();
+        keyImage = loadImage(new File("./data/keyImage.jpg"));
+        flashlightImage = loadImage(new File("./data/flashlight.jpg"));
         setPreferredSize(new Dimension(GameMap.SCREEN_SIZE_WIDTH, GameMap.SCREEN_SIZE_HEIGHT));
         setBackground(new Color(0x4E4E4E));
         mainInterface.add(this,BorderLayout.CENTER);
@@ -32,18 +34,20 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawTraps(g);
-        drawKeys(g);
+        drawItems(g);
         drawCharacter(g);
     }
 
     // MODIFIES: this
     // EFFECTS: load images
-    private void loadImage() {
+    private BufferedImage loadImage(File location) {
+        BufferedImage image = null;
         try {
-            keyImage = ImageIO.read(new File("./data/keyImage.jpg"));
+            image = ImageIO.read(location);
         } catch (Exception e) {
             System.out.println("error");
         }
+        return image;
     }
 
     // MODIFIES: g
@@ -98,10 +102,25 @@ public class GamePanel extends JPanel {
 
     // MODIFIES: g
     // EFFECTS: draw keys in mainGameMap onto g
-    private void drawKeys(Graphics g) {
+    private void drawItems(Graphics g) {
         g.setColor(Color.YELLOW);
-        for (Item k : mainGameMap.getOnFloorKeys()) {
-            drawKey(g, k);
+        for (Item i : mainGameMap.getOnFloorKeys()) {
+            if (i.getItemName().equals("key")) {
+                drawKey(g, i);
+            } else {
+                drawFlashlight(g,i);
+            }
+
+        }
+    }
+
+    // MODIFIES: g
+    // EFFECTS: draw Key k onto g
+    private void drawFlashlight(Graphics g, Item k) {
+        if (mainGameMap.getMainCharacter().isInViewDistance(k)) {
+            int x = k.getLocationX();
+            int y = k.getLocationY();
+            g.drawImage(flashlightImage,x - 13,y - 13,32,26,null);
         }
     }
 

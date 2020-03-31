@@ -11,4 +11,16 @@ public class Key extends Item {
         pickedUp = false;
     }
 
+    @Override
+    public void pickUpItem(Character character) {
+        super.pickUpItem(character);
+        character.keyAddedToInventory();
+    }
+
+    @Override
+    public void dropItem(Character character) {
+        super.dropItem(character);
+        character.keyRemovedFromInventory();
+    }
+
 }

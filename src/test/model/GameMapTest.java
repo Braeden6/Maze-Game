@@ -71,24 +71,7 @@ public class GameMapTest {
     void testGameOver1() {
         assertFalse(testMap.gameWon());
         for (int i = 0; i < GameMap.KEY_TO_WIN; i++) {
-            testMap.addGivenItemToFloor(new Key(800,800,"k"));
-        }
-        assertTrue(testMap.gameWon());
-    }
-
-    @Test
-    void testGameOver2() {
-        assertFalse(testMap.gameWon());
-        for (int i = 0; i < GameMap.KEY_TO_WIN / 2; i++) {
-            testMap.addGivenItemToFloor(new Key(800,800,"k"));
-        }
-        testMap.addGivenItemToFloor(new Key(400,350,"k"));
-        testMap.addGivenItemToFloor(new Key(600,350,"k"));
-        assertFalse(testMap.gameWon());
-        testMap.addGivenItemToFloor(new Key(400,350,"k"));
-        assertFalse(testMap.gameWon());
-        for (int i = 0; i < GameMap.KEY_TO_WIN / 2; i++) {
-            testMap.addGivenItemToFloor(new Key(800,800,"k"));
+            new Key(100, 100, "key").pickUpItem(testMap.getMainCharacter());
         }
         assertTrue(testMap.gameWon());
     }

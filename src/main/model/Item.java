@@ -75,8 +75,8 @@ public abstract class Item {
         pickedUp = false;
     }
 
-    // EFFECTS: returns true if character location can pick up item
-    public boolean isAbleToPickUp(int characterLocationX, int characterLocationY) {
-        return isWithinRange(characterLocationX,characterLocationY,Key.REACH);
+    // EFFECTS: returns true if given location is able to pick up item
+    public boolean isAbleToPickUp(int locationX, int locationY) {
+        return isWithinRange(locationX,locationY,Key.REACH);
     }
 }

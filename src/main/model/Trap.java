@@ -7,13 +7,11 @@ public class Trap extends Item {
 
     private Random rand;
 
-
     public Trap() {
         rand  = new Random();
         super.locationX = rand.nextInt(GameMap.SCREEN_SIZE_WIDTH);
         super.locationY = rand.nextInt(GameMap.SCREEN_SIZE_HEIGHT);
     }
-
 
     // EFFECTS: returns true if given location will set off the trap
     public boolean isTrapSetOff(int locationX, int locationY) {

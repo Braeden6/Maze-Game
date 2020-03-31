@@ -12,9 +12,9 @@ public class GameMap implements Saveable {
     public static final int SCREEN_SIZE_WIDTH = 970;
     public static final int SCREEN_SIZE_HEIGHT = 785;
     public static final int NUMBER_OF_KEYS = 10;
-    public static final int NUMBER_OF_FLASHLIGHTS = 2;
+    public static final int NUMBER_OF_FLASHLIGHTS = 4;
     public static final int NUMBER_OF_TRAPS = 20;
-    public static final int KEY_TO_WIN = 4;
+    public static final int KEY_TO_WIN = 6;
 
     private LinkedList<Item> onFloorKeys;
     private ArrayList<Trap> onFloorTraps;
@@ -87,18 +87,7 @@ public class GameMap implements Saveable {
 
     // EFFECTS: returns true if keys in the same location is  >= KEY_TO_WIN
     public boolean gameWon() {
-        Item checkingKey;
-        int amountOfSameLocation = 0;
-        for (int i = 0; amountOfSameLocation < KEY_TO_WIN && i < onFloorKeys.size(); i++) {
-            checkingKey = onFloorKeys.get(i);
-            amountOfSameLocation = 0;
-            for (Item k : onFloorKeys) {
-                if (isSameLocation(k, checkingKey)) {
-                    amountOfSameLocation++;
-                }
-            }
-        }
-        return amountOfSameLocation >= KEY_TO_WIN;
+        return mainCharacter.getKeysInInventory() >= KEY_TO_WIN;
     }
 
     // EFFECTS: returns true if they 2 keys have the same x and y coords
