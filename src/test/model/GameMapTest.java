@@ -75,16 +75,5 @@ public class GameMapTest {
         }
         assertTrue(testMap.gameWon());
     }
-
-    @Test
-    void testSamePlace() {
-        assertFalse(testMap.isSameLocation(key1,key2));//both diff
-        assertTrue(testMap.isSameLocation(key1,key1));//same
-        key2.setLocation(100,101);
-        assertFalse(testMap.isSameLocation(key1,key2));
-        key2.setLocation(101,100);
-        assertFalse(testMap.isSameLocation(key1,key2));
-
-    }
 }
 

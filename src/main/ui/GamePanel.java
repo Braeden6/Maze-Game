@@ -135,14 +135,14 @@ public class GamePanel extends JPanel {
     }
 
     // EFFECTS: updates mainGameMap and mainInterface to g and m
-    public void loadGame(GameConsoleInterface g, GameMap m) {
+    public void displayLoadedGame(GameConsoleInterface g, GameMap m) {
         mainGameMap = m;
         mainInterface = g;
     }
 
     // MODIFIES: this
     //EFFECTS: displays a game string at the top of the JPanel
-    public void endGame(String s) {
+    public void endDisplayOfGame(String s) {
         JLabel endGame = new JLabel(s);
         endGame.setFont(new Font("Monospaced", Font.BOLD, 50));
         add(endGame, BorderLayout.CENTER);

@@ -36,7 +36,6 @@ public class Character {
     // EFFECTS: signals that a key was added to the inventory
     public void keyAddedToInventory() {
         keysInInventory++;
-        System.out.println(keysInInventory);
     }
 
     // MODIFIES: this
@@ -80,10 +79,10 @@ public class Character {
     public void moveCharacter(String command) {
         switch (command) {
             case "w":
-                locationY = moveMaximum(locationY,GameMap.SCREEN_SIZE_HEIGHT);
+                locationY = moveMinimum(locationY);
                 break;
             case "s":
-                locationY = moveMinimum(locationY);
+                locationY = moveMaximum(locationY,GameMap.SCREEN_SIZE_HEIGHT);
                 break;
             case "a":
                 locationX = moveMinimum(locationX);
@@ -173,6 +172,5 @@ public class Character {
         int d = (int) sqrt(pow(locationX - x, 2) + pow(locationY - y, 2));
         return d <= viewDistance;
     }
-
-
 }
+

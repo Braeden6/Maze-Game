@@ -59,3 +59,17 @@ in your inventory
 For task 2 of phase 4 I made a type hierarchy. I used a abstract class Item that was extended by: Key, Trap, 
 and Flashlight (which I fixed and updated to work, it will change view distance and now shows in 
 the inventory and can be dropped).
+
+## **Phase 4: Task 3**
+My improvements:
+- During task 2 I simplified Key and Trap class through the introduction of an abstract class. There was some repetitive
+code, like methods involving being within radius of the object. (this also made it easier to implement flashlight as
+it also extended this class reusing these methods)
+- Another fix was between GameConsoleInterface and Character classes. Due to how character movement was setup
+originally, the movement character method would move him down when sent w and up when sent s. Therefor, this was
+corrected in the confusing was swapping the GameConsoleInterface keyhandler sending w to character movement when s was 
+pressed instead of correcting the character class.
+
+
+
+Draw UML class diagram for the full program

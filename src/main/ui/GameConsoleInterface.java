@@ -73,7 +73,12 @@ public class GameConsoleInterface extends JFrame {
         setSize(400, 400);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        addLabels();
+    }
 
+    // MODIFIES: this
+    // EFFECTS: add text to the JFrame used to enter name
+    private void addLabels() {
         enterName = new JPanel();
         enterName.setLayout(new GridLayout(0,1));
         enterName.setSize(0, 0);
@@ -86,14 +91,6 @@ public class GameConsoleInterface extends JFrame {
             generateGame(name);
             addGraphics();
         });
-        addLabels();
-        add(enterName, BorderLayout.SOUTH);
-        setVisible(true);
-    }
-
-    // MODIFIES: this
-    // EFFECTS: add text to the JFrame used to enter name
-    private void addLabels() {
         JLabel label1 = new JLabel("  Enter Character");
         JLabel label2 = new JLabel("    Name Below");
         JLabel label3 = new JLabel();
@@ -104,6 +101,8 @@ public class GameConsoleInterface extends JFrame {
         enterName.add(label3);
         enterName.add(nameInput);
         enterName.add(submit);
+        add(enterName, BorderLayout.SOUTH);
+        setVisible(true);
     }
 
     // MODIFIES: this
@@ -138,7 +137,7 @@ public class GameConsoleInterface extends JFrame {
         if (mainGameMap.isTrapSetOff()) {
             removeKeyListener(movement);
             gameOption.endGame();
-            gp.endGame("Game Lost");
+            gp.endDisplayOfGame("Game Lost");
             timer.stop();
             setVisible(true);
         }
@@ -149,7 +148,7 @@ public class GameConsoleInterface extends JFrame {
         if (mainGameMap.gameWon()) {
             removeKeyListener(movement);
             gameOption.endGame();
-            gp.endGame("Game Won");
+            gp.endDisplayOfGame("Game Won");
             timer.stop();
             setVisible(true);
         }
@@ -164,7 +163,7 @@ public class GameConsoleInterface extends JFrame {
             //nothing
         }
         mainCharacter = mainGameMap.getMainCharacter();
-        gp.loadGame(this, mainGameMap);
+        gp.displayLoadedGame(this, mainGameMap);
         dp.setMainCharacter(mainCharacter);
     }
 
@@ -211,7 +210,6 @@ public class GameConsoleInterface extends JFrame {
     public void addKeys(int amount) {
         int w = GameMap.SCREEN_SIZE_WIDTH;
         int h = GameMap.SCREEN_SIZE_HEIGHT;
-        String keyName;
         for (int i = 1; i <= amount; i++) {
             mainGameMap.addGivenItemToFloor(new Key(rand.nextInt(w), rand.nextInt(h), "key"));
         }
@@ -222,7 +220,6 @@ public class GameConsoleInterface extends JFrame {
     public void addFlashlights(int amount) {
         int w = GameMap.SCREEN_SIZE_WIDTH;
         int h = GameMap.SCREEN_SIZE_HEIGHT;
-        String keyName;
         for (int i = 1; i <= amount; i++) {
             mainGameMap.addGivenItemToFloor(new Flashlight("flashlight", rand.nextInt(w), rand.nextInt(h)));
         }
@@ -246,13 +243,13 @@ public class GameConsoleInterface extends JFrame {
                     mainCharacter.moveCharacter("a");
                     break;
                 case KeyEvent.VK_S:
-                    mainCharacter.moveCharacter("w");
+                    mainCharacter.moveCharacter("s");
                     break;
                 case KeyEvent.VK_D:
                     mainCharacter.moveCharacter("d");
                     break;
                 case KeyEvent.VK_W:
-                    mainCharacter.moveCharacter("s");
+                    mainCharacter.moveCharacter("w");
                     break;
                 default:
                     break;

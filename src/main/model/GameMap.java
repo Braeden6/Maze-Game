@@ -90,15 +90,6 @@ public class GameMap implements Saveable {
         return mainCharacter.getKeysInInventory() >= KEY_TO_WIN;
     }
 
-    // EFFECTS: returns true if they 2 keys have the same x and y coords
-    public boolean isSameLocation(Item k1, Item k2) {
-        int k1x = k1.getLocationX();
-        int k2x = k2.getLocationX();
-        int k1y = k1.getLocationY();
-        int k2y = k2.getLocationY();
-        return k1x == k2x && k1y == k2y;
-    }
-
     @Override
     public void save(PrintWriter printWriter) {
         saveCharacter(printWriter);
