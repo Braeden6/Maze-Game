@@ -62,14 +62,17 @@ the inventory and can be dropped).
 
 ## **Phase 4: Task 3**
 My improvements:
-- During task 2 I simplified Key and Trap class through the introduction of an abstract class. There was some repetitive
-code, like methods involving being within radius of the object. (this also made it easier to implement flashlight as
-it also extended this class reusing these methods)
-- Another fix was between GameConsoleInterface and Character classes. Due to how character movement was setup
+- Fix 1: During task 2 I simplified Key and Trap class through the introduction of an abstract class. There was 
+some repetitive code, like methods involving being within radius of the object. (this also made it easier to implement 
+flashlight as it also extended this class reusing these methods)
+- Fix 2: was between GameConsoleInterface and Character classes. Due to how character movement was setup
 originally, the movement character method would move him down when sent w and up when sent s. Therefor, this was
 corrected in the confusing was swapping the GameConsoleInterface keyhandler sending w to character movement when s was 
 pressed instead of correcting the character class.
-
-
-
-Draw UML class diagram for the full program
+- Fix 3: Poor cohesion with the GameConsoleInterface. Removed set up and displaying of character name input screen to
+its own class as the GameConsoleInterface already does a lot. Everything was updated and moved to the class
+CharacterNameInputScreen
+- Fix 4: Poor cohesion with the GameConsoleInterface and GameMap. Moved all the generation of the map from the 
+GameConsoleInterface to the GameMap itself. (also updated test to make sure they are correct and include tests for 
+these new methods) This reduces methods in GameConsoleInterface that really has nothing to do with the interface.
+These methods that generate the game map should have been inside the game map itself. 

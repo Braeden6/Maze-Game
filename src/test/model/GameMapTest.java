@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GameMapTest {
     private GameMap testMap;
-    private ArrayList<Key> testKeyList;
     Key key1;
     Key key2;
 
@@ -18,25 +17,26 @@ public class GameMapTest {
     @BeforeEach
     void runBefore() {
         testMap = new GameMap("Bob");
-        testKeyList = new ArrayList<>();
         key1 = new Key(100 ,100, "key1");
         key2 = new Key(1000 ,300, "key2");
-        testKeyList.add(key1);
         testMap.addGivenItemToFloor(key1);
     }
 
     @Test
     void testAddKey() {
-        assertEquals(testKeyList, testMap.getOnFloorKeys());
-        testKeyList.add(key2);
+        int startingIndex = GameMap.NUMBER_OF_KEYS + GameMap.NUMBER_OF_FLASHLIGHTS;
+        assertEquals(key1, testMap.getOnFloorKeys().get(startingIndex));
         testMap.addGivenItemToFloor(key2);
-        assertEquals(testKeyList, testMap.getOnFloorKeys());
-        testKeyList.remove(1);
-        testMap.removeIndexKey(1);
-        assertEquals(testKeyList, testMap.getOnFloorKeys());
-        testKeyList.remove(0);
-        testMap.removeIndexKey(0);
-        assertEquals(testKeyList, testMap.getOnFloorKeys());
+        assertEquals(key2, testMap.getOnFloorKeys().get(startingIndex + 1));
+        testMap.removeIndexKey(startingIndex);
+        assertEquals(key2, testMap.getOnFloorKeys().get(startingIndex));
+        testMap.removeIndexKey(startingIndex);
+        try {
+            testMap.getOnFloorKeys().get(startingIndex);
+        } catch (Exception e) {
+            return;
+        }
+        fail();
     }
 
     @Test
@@ -57,6 +57,7 @@ public class GameMapTest {
 
     @Test
     void testAddTrap() {
+        testMap.resetTrapList();
         Trap testTrap = new Trap();
         Trap testTrap2 = new Trap();
         testMap.addGivenTrap(testTrap);

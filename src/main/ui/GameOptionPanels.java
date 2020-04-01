@@ -1,5 +1,7 @@
 package ui;
 
+import model.GameMap;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,7 +14,7 @@ public class GameOptionPanels extends KeyAdapter  {
     private boolean visibleSubmitButton = false;
 
     private GameConsoleInterface mainInterface;
-
+    private GameMap mainGameMap;
     private ButtonPressed buttonActionListener;
 
     private JPanel optionArea;
@@ -25,7 +27,8 @@ public class GameOptionPanels extends KeyAdapter  {
     private JButton saveGame;
     private JButton loadGame;
 
-    public GameOptionPanels(GameConsoleInterface parent) {
+    public GameOptionPanels(GameConsoleInterface parent, GameMap mainGameMap) {
+        this.mainGameMap = mainGameMap;
         mainInterface = parent;
         optionArea = new JPanel();
         initializeGraphics();
@@ -130,7 +133,7 @@ public class GameOptionPanels extends KeyAdapter  {
                     mainInterface.dropItem();
                     break;
                 case "Add Key" :
-                    mainInterface.addKeys(1);
+                    mainGameMap.addKeys(1);
                     break;
                 case "Save Game" :
                     mainInterface.saveGame();

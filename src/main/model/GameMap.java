@@ -6,6 +6,7 @@ import persistence.Saveable;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 // this class is a list of items that are currently on the map ground
 public class GameMap implements Saveable {
@@ -19,12 +20,17 @@ public class GameMap implements Saveable {
     private LinkedList<Item> onFloorKeys;
     private ArrayList<Trap> onFloorTraps;
     private Character mainCharacter;
+    private Random rand;
 
 
     public GameMap(String name) {
+        rand = new Random();
         onFloorKeys = new LinkedList<>();
         mainCharacter = new Character(name);
         onFloorTraps =  new ArrayList<>();
+        addKeys(NUMBER_OF_KEYS);
+        addFlashlights(NUMBER_OF_FLASHLIGHTS);
+        addTraps();
     }
 
     // MODIFIES: this
@@ -40,10 +46,17 @@ public class GameMap implements Saveable {
     }
 
     // MODIFIES: this
-    // REQUIRES: index > 0 and location must contain a key
+    // REQUIRES: index => 0 and location must contain a key
     // EFFECTS: removes key from list in the given index location
     public void removeIndexKey(int index) {
         onFloorKeys.remove(index);
+    }
+
+    // MODIFIES: this
+    // REQUIRES: there to be a trap
+    // EFFECTS: removes trap from list in the given index location (for testing purposes)
+    public void resetTrapList() {
+        onFloorTraps = new ArrayList<>();
     }
 
 
@@ -62,6 +75,33 @@ public class GameMap implements Saveable {
         return mainCharacter;
     }
 
+
+    // REQUIRES: amount > 0
+    // EFFECTS: adds amount of keys to the ground at random locations
+    public void addKeys(int amount) {
+        int w = GameMap.SCREEN_SIZE_WIDTH;
+        int h = GameMap.SCREEN_SIZE_HEIGHT;
+        for (int i = 1; i <= amount; i++) {
+            addGivenItemToFloor(new Key(rand.nextInt(w), rand.nextInt(h), "key"));
+        }
+    }
+
+    // REQUIRES: amount > 0
+    // EFFECTS: adds amount of flashlights to the ground at random locations
+    public void addFlashlights(int amount) {
+        int w = GameMap.SCREEN_SIZE_WIDTH;
+        int h = GameMap.SCREEN_SIZE_HEIGHT;
+        for (int i = 1; i <= amount; i++) {
+            addGivenItemToFloor(new Flashlight("flashlight", rand.nextInt(w), rand.nextInt(h)));
+        }
+    }
+
+    // EFFECTS: adds game starting amount of traps to the ground at random locations
+    private void addTraps() {
+        for (int i = 1; i <= GameMap.NUMBER_OF_TRAPS; i++) {
+            addGivenTrap(new Trap());
+        }
+    }
 
     // EFFECTS: returns item and removes it from the list that has the given name or a new one with name invalid
     public Item getItem(String name) {
