@@ -19,7 +19,7 @@ class CharacterTest {
     void runBefore() {
         testCharacter = new Character("Bob");
         testInventory = new ArrayList<>();
-        testFloor = new LinkedList<Item>();
+        testFloor = new LinkedList<>();
     }
 
     @Test

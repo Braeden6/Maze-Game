@@ -5,10 +5,8 @@ import java.util.Random;
 public class Trap extends Item {
     public static final int DISTANCE_FROM_CENTER_TO_TRIGGER_TRAP = 24;
 
-    private Random rand;
-
     public Trap() {
-        rand  = new Random();
+        Random rand  = new Random();
         super.locationX = rand.nextInt(GameMap.SCREEN_SIZE_WIDTH);
         super.locationY = rand.nextInt(GameMap.SCREEN_SIZE_HEIGHT);
     }

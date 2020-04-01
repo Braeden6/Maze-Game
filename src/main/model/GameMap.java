@@ -79,20 +79,18 @@ public class GameMap implements Saveable {
     // REQUIRES: amount > 0
     // EFFECTS: adds amount of keys to the ground at random locations
     public void addKeys(int amount) {
-        int w = GameMap.SCREEN_SIZE_WIDTH;
-        int h = GameMap.SCREEN_SIZE_HEIGHT;
         for (int i = 1; i <= amount; i++) {
-            addGivenItemToFloor(new Key(rand.nextInt(w), rand.nextInt(h), "key"));
+            addGivenItemToFloor(new Key(rand.nextInt(SCREEN_SIZE_WIDTH),
+                    rand.nextInt(SCREEN_SIZE_HEIGHT), "key"));
         }
     }
 
     // REQUIRES: amount > 0
     // EFFECTS: adds amount of flashlights to the ground at random locations
     public void addFlashlights(int amount) {
-        int w = GameMap.SCREEN_SIZE_WIDTH;
-        int h = GameMap.SCREEN_SIZE_HEIGHT;
         for (int i = 1; i <= amount; i++) {
-            addGivenItemToFloor(new Flashlight("flashlight", rand.nextInt(w), rand.nextInt(h)));
+            addGivenItemToFloor(new Flashlight("flashlight", rand.nextInt(GameMap.SCREEN_SIZE_WIDTH),
+                    rand.nextInt(SCREEN_SIZE_HEIGHT)));
         }
     }
 

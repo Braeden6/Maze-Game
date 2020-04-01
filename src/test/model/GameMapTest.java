@@ -3,8 +3,6 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameMapTest {
@@ -24,6 +22,7 @@ public class GameMapTest {
 
     @Test
     void testAddKey() {
+        Item item;
         int startingIndex = GameMap.NUMBER_OF_KEYS + GameMap.NUMBER_OF_FLASHLIGHTS;
         assertEquals(key1, testMap.getOnFloorKeys().get(startingIndex));
         testMap.addGivenItemToFloor(key2);
@@ -32,11 +31,11 @@ public class GameMapTest {
         assertEquals(key2, testMap.getOnFloorKeys().get(startingIndex));
         testMap.removeIndexKey(startingIndex);
         try {
-            testMap.getOnFloorKeys().get(startingIndex);
+            item = testMap.getOnFloorKeys().get(startingIndex);
         } catch (Exception e) {
             return;
         }
-        fail();
+        assertEquals(item.getItemName(),"fail");
     }
 
     @Test
