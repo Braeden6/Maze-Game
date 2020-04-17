@@ -144,17 +144,9 @@ public class GameConsoleInterface extends JFrame {
     }
 
     // MODIFIES: this
-    // EFFECTS: if character inventory is not empty then first item in inventory will be dropped
-    public void dropItem() {
-        if (!mainCharacter.getInventory().isEmpty()) {
-            mainGameMap.addGivenItemToFloor(mainCharacter.dropItem(0));
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: if character inventory is not empty then first item in inventory will be dropped
+    // EFFECTS: will drop item of given index
     public void dropItem(int index) {
-        if (!mainCharacter.getInventory().isEmpty()) {
+        if (mainCharacter.getInventory().size() > index) {
             mainGameMap.addGivenItemToFloor(mainCharacter.dropItem(index));
         }
     }

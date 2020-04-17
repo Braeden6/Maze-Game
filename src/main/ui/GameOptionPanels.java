@@ -20,7 +20,6 @@ public class GameOptionPanels extends KeyAdapter  {
     private JPanel optionArea;
     private JTextField input;
     private JButton submit;
-    private JButton dropItem;
     private JButton newKey;
     private JButton saveGame;
     private JButton loadGame;
@@ -45,12 +44,10 @@ public class GameOptionPanels extends KeyAdapter  {
 
     // EFFECTS: adds buttons to JPanel and add ActionListener to for each button
     private void enableButtons() {
-        optionArea.add(dropItem);
         optionArea.add(newKey);
         optionArea.add(saveGame);
         optionArea.add(loadGame);
 
-        dropItem.addActionListener(buttonActionListener);
         newKey.addActionListener(buttonActionListener);
         saveGame.addActionListener(buttonActionListener);
         loadGame.addActionListener(buttonActionListener);
@@ -59,7 +56,6 @@ public class GameOptionPanels extends KeyAdapter  {
     // MODIFIES: this
     // EFFECTS: removes action listener from buttons
     public void endGame() {
-        dropItem.removeActionListener(buttonActionListener);
         newKey.removeActionListener(buttonActionListener);
         saveGame.removeActionListener(buttonActionListener);
         loadGame.removeActionListener(buttonActionListener);
@@ -68,7 +64,6 @@ public class GameOptionPanels extends KeyAdapter  {
     // MODIFIES: this
     // EFFECTS: instantiates each of the buttons
     private void initializeButtons() {
-        dropItem = new JButton("Drop Item");
         newKey = new JButton("Add Key");
         saveGame = new JButton("Save Game");
         loadGame = new JButton("Load Game");
@@ -76,7 +71,6 @@ public class GameOptionPanels extends KeyAdapter  {
 
     // EFFECTS: set Focusable off all buttons to false
     private void buttonDisableFocusable() {
-        dropItem.setFocusable(false);
         newKey.setFocusable(false);
         saveGame.setFocusable(false);
         loadGame.setFocusable(false);
@@ -116,9 +110,6 @@ public class GameOptionPanels extends KeyAdapter  {
             switch (pressed) {
                 case "Pick Up Item" :
                     mainInterface.pickUpItem();
-                    break;
-                case "Drop Item" :
-                    mainInterface.dropItem();
                     break;
                 case "Add Key" :
                     mainGameMap.addKeys(1);
