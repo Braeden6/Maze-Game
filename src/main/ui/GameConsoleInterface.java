@@ -176,6 +176,11 @@ public class GameConsoleInterface extends JFrame {
                 case KeyEvent.VK_W:
                     mainCharacter.moveCharacter("w");
                     break;
+                case KeyEvent.VK_C:
+                    mainCharacter.isPickedUpItem(mainGameMap.getOnFloorKeys());
+                    break;
+                case KeyEvent.VK_I:
+                    displayInventory();
                 default:
                     break;
             }

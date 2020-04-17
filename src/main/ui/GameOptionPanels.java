@@ -20,8 +20,6 @@ public class GameOptionPanels extends KeyAdapter  {
     private JPanel optionArea;
     private JTextField input;
     private JButton submit;
-    private JButton inventory;
-    private JButton pickUp;
     private JButton dropItem;
     private JButton newKey;
     private JButton saveGame;
@@ -47,15 +45,11 @@ public class GameOptionPanels extends KeyAdapter  {
 
     // EFFECTS: adds buttons to JPanel and add ActionListener to for each button
     private void enableButtons() {
-        optionArea.add(inventory);
-        optionArea.add(pickUp);
         optionArea.add(dropItem);
         optionArea.add(newKey);
         optionArea.add(saveGame);
         optionArea.add(loadGame);
 
-        inventory.addActionListener(buttonActionListener);
-        pickUp.addActionListener(buttonActionListener);
         dropItem.addActionListener(buttonActionListener);
         newKey.addActionListener(buttonActionListener);
         saveGame.addActionListener(buttonActionListener);
@@ -65,8 +59,6 @@ public class GameOptionPanels extends KeyAdapter  {
     // MODIFIES: this
     // EFFECTS: removes action listener from buttons
     public void endGame() {
-        inventory.removeActionListener(buttonActionListener);
-        pickUp.removeActionListener(buttonActionListener);
         dropItem.removeActionListener(buttonActionListener);
         newKey.removeActionListener(buttonActionListener);
         saveGame.removeActionListener(buttonActionListener);
@@ -76,8 +68,6 @@ public class GameOptionPanels extends KeyAdapter  {
     // MODIFIES: this
     // EFFECTS: instantiates each of the buttons
     private void initializeButtons() {
-        inventory = new JButton("Inventory");
-        pickUp = new JButton("Pick Up Item");
         dropItem = new JButton("Drop Item");
         newKey = new JButton("Add Key");
         saveGame = new JButton("Save Game");
@@ -86,8 +76,6 @@ public class GameOptionPanels extends KeyAdapter  {
 
     // EFFECTS: set Focusable off all buttons to false
     private void buttonDisableFocusable() {
-        inventory.setFocusable(false);
-        pickUp.setFocusable(false);
         dropItem.setFocusable(false);
         newKey.setFocusable(false);
         saveGame.setFocusable(false);
