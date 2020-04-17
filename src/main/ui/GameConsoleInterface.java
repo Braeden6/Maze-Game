@@ -77,7 +77,7 @@ public class GameConsoleInterface extends JFrame {
         setLocationRelativeTo(null);
         gameOption = new GameOptionPanels(this, mainGameMap);
         gp =  new GamePanel(this, mainGameMap);
-        dp = new DisplayInventory(this, mainCharacter);
+        dp = new DisplayInventory(this,mainCharacter);
         resetMainFrame();
         movement = new KeyHandler();
         addKeyListener(movement);
@@ -148,6 +148,14 @@ public class GameConsoleInterface extends JFrame {
     public void dropItem() {
         if (!mainCharacter.getInventory().isEmpty()) {
             mainGameMap.addGivenItemToFloor(mainCharacter.dropItem(0));
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: if character inventory is not empty then first item in inventory will be dropped
+    public void dropItem(int index) {
+        if (!mainCharacter.getInventory().isEmpty()) {
+            mainGameMap.addGivenItemToFloor(mainCharacter.dropItem(index));
         }
     }
 

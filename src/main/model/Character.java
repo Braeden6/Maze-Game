@@ -7,7 +7,7 @@ import static java.lang.Math.*;
 // This class is the main character that has an inventory and a move-able location
 public class Character {
     public static final int MOVEMENT_DISTANCE = 10;
-    public static final int MAX_SIZE_OF_INVENTORY = 6;
+    public static final int MAX_SIZE_OF_INVENTORY = 10;
     public static final int STARTING_VIEW_DISTANCE = 125;
 
     private int keysInInventory;
