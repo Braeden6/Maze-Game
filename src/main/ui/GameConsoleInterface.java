@@ -51,7 +51,6 @@ public class GameConsoleInterface extends JFrame {
             if (displayInventory) {
                 dp.repaint();
             }
-
         });
         timer.start();
     }
