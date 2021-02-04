@@ -13,7 +13,7 @@ public class GameOptionPanels extends KeyAdapter  {
 
     private boolean visibleSubmitButton = false;
 
-    private GameConsoleInterface mainInterface;
+    private MainGameSystem mainInterface;
     private GameMap mainGameMap;
     private ButtonPressed buttonActionListener;
 
@@ -24,7 +24,7 @@ public class GameOptionPanels extends KeyAdapter  {
     private JButton saveGame;
     private JButton loadGame;
 
-    public GameOptionPanels(GameConsoleInterface parent, GameMap mainGameMap) {
+    public GameOptionPanels(MainGameSystem parent, GameMap mainGameMap) {
         this.mainGameMap = mainGameMap;
         mainInterface = parent;
         optionArea = new JPanel();

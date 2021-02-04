@@ -9,6 +9,7 @@ public class Character {
     public static final int MOVEMENT_DISTANCE = 10;
     public static final int MAX_SIZE_OF_INVENTORY = 10;
     public static final int STARTING_VIEW_DISTANCE = 125;
+    public static final int STARTING_HEALTH = 100;
 
     private int keysInInventory;
     private int viewDistance;
@@ -16,11 +17,13 @@ public class Character {
     private String name;
     private int locationX;
     private int locationY;
+    private int health;
 
     // EFFECTS: Set character name to the given name and places him at the starting location
     public Character(String name) {
         keysInInventory = 0;
         viewDistance = STARTING_VIEW_DISTANCE;
+        this.health = STARTING_HEALTH;
         inventory = new LinkedList<>();
         this.name = name;
         locationX = 0;
@@ -30,6 +33,9 @@ public class Character {
     //getter
     public int getKeysInInventory() {
         return keysInInventory;
+    }
+    public int getViewDistance() {
+        return viewDistance;
     }
 
     // MODIFIES: this
@@ -56,9 +62,29 @@ public class Character {
         viewDistance -= decrease;
     }
 
-    //getter
-    public int getViewDistance() {
-        return viewDistance;
+    // EFFECTS: check if inventory is full
+    private boolean isInventoryFull() {
+        return inventory.size() >= MAX_SIZE_OF_INVENTORY;
+    }
+
+    // EFFECTS: return character locationX
+    public int getLocationX() {
+        return locationX;
+    }
+
+    // EFFECTS: return character locationX
+    public int getLocationY() {
+        return locationY;
+    }
+
+    // EFFECTS: returns character name
+    public String getCharacterName() {
+        return name;
+    }
+
+    // EFFECTS: returns list of items in inventory
+    public LinkedList<Item> getInventory() {
+        return inventory;
     }
 
     // EFFECTS: set location of main character
@@ -66,6 +92,13 @@ public class Character {
     public void setLocation(int locationX, int locationY) {
         this.locationX = locationX;
         this.locationY = locationY;
+    }
+    // EFFECTS: character takes damage to health and returns true if
+    // character is dead
+    // MODIFIES: this
+    public boolean takeDamage(int damage) {
+        this.health -= damage;
+        return health <= 0;
     }
 
     // REQUIRES: command must be w, a, s, or d
@@ -121,31 +154,6 @@ public class Character {
             }
         }
         return false;
-    }
-
-    // EFFECTS: check if inventory is full
-    private boolean isInventoryFull() {
-        return inventory.size() >= MAX_SIZE_OF_INVENTORY;
-    }
-
-    // EFFECTS: return character locationX
-    public int getLocationX() {
-        return locationX;
-    }
-
-    // EFFECTS: return character locationX
-    public int getLocationY() {
-        return locationY;
-    }
-
-    // EFFECTS: returns character name
-    public String getCharacterName() {
-        return name;
-    }
-
-    // EFFECTS: returns list of items in inventory
-    public LinkedList<Item> getInventory() {
-        return inventory;
     }
 
     // REQUIRES: 0 <= locationX and locationY <= SCREEN_SIZE

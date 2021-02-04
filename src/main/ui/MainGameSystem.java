@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 //This is the main game application
-public class GameConsoleInterface extends JFrame {
+public class MainGameSystem extends JFrame {
 
     private static final int INTERVAL = 20;
     private Character mainCharacter;
@@ -28,7 +28,7 @@ public class GameConsoleInterface extends JFrame {
     private KeyHandler movement;
 
     // EFFECTS: initializes scanner and starts main loop
-    public GameConsoleInterface() {
+    public MainGameSystem() {
         super("Search Game");
         new CharacterNameInputScreen(this);
     }

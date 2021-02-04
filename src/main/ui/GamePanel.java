@@ -10,21 +10,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
-
 public class GamePanel extends JPanel {
 
-    private BufferedImage keyImage;
-    private BufferedImage flashlightImage;
-    private GameConsoleInterface mainInterface;
+    private MainGameSystem mainInterface;
     private GameMap mainGameMap;
 
-    public GamePanel(GameConsoleInterface g, GameMap m) {
+    public GamePanel(MainGameSystem g, GameMap m) {
         mainInterface = g;
         mainGameMap = m;
-        keyImage = loadImage(new File("./data/keyImage.jpg"));
-        flashlightImage = loadImage(new File("./data/flashlight.jpg"));
         setPreferredSize(new Dimension(GameMap.SCREEN_SIZE_WIDTH, GameMap.SCREEN_SIZE_HEIGHT));
         setBackground(new Color(0x4E4E4E));
         mainInterface.add(this,BorderLayout.CENTER);
@@ -40,7 +33,7 @@ public class GamePanel extends JPanel {
 
     // MODIFIES: this
     // EFFECTS: load images
-    private BufferedImage loadImage(File location) {
+    static public BufferedImage loadImage(File location) {
         BufferedImage image = null;
         try {
             image = ImageIO.read(location);
@@ -78,25 +71,10 @@ public class GamePanel extends JPanel {
     private void drawTraps(Graphics g) {
         g.setColor(Color.RED);
         for (Trap t : mainGameMap.getOnFloorTraps()) {
-            drawTrap(g, t);
-        }
-    }
+            if (mainGameMap.getMainCharacter().isInViewDistance(t)) {
+                t.drawItem(g);
+            }
 
-    // MODIFIES: g
-    // EFFECTS: draw Trap t onto g
-    private void drawTrap(Graphics g, Trap t) {
-        if (mainGameMap.getMainCharacter().isInViewDistance(t)) {
-            int size = 8;
-            int x = t.getLocationX();
-            int y = t.getLocationY();
-            g.drawLine(x,y,x + size,y + size);
-            g.drawLine(x,y,x,y + (int) sqrt(2 * pow(size,2)));
-            g.drawLine(x,y,x - size,y + size);
-            g.drawLine(x,y,x - size,y - size);
-            g.drawLine(x,y,x, y - (int) sqrt(2 * pow(size,2)));
-            g.drawLine(x,y,x + size,y - size);
-            g.drawLine(x,y,x - (int) sqrt(2 * pow(size,2)),y);
-            g.drawLine(x,y,x + (int) sqrt(2 * pow(size,2)),y);
         }
     }
 
@@ -105,37 +83,15 @@ public class GamePanel extends JPanel {
     private void drawItems(Graphics g) {
         g.setColor(Color.YELLOW);
         for (Item i : mainGameMap.getOnFloorKeys()) {
-            if (i.getItemName().equals("key")) {
-                drawKey(g, i);
-            } else {
-                drawFlashlight(g,i);
+            if (mainGameMap.getMainCharacter().isInViewDistance(i)) {
+                i.drawItem(g);
             }
-
         }
     }
 
-    // MODIFIES: g
-    // EFFECTS: draw Key k onto g
-    private void drawFlashlight(Graphics g, Item k) {
-        if (mainGameMap.getMainCharacter().isInViewDistance(k)) {
-            int x = k.getLocationX();
-            int y = k.getLocationY();
-            g.drawImage(flashlightImage,x - 13,y - 13,32,26,null);
-        }
-    }
-
-    // MODIFIES: g
-    // EFFECTS: draw Key k onto g
-    private void drawKey(Graphics g, Item k) {
-        if (mainGameMap.getMainCharacter().isInViewDistance(k)) {
-            int x = k.getLocationX();
-            int y = k.getLocationY();
-            g.drawImage(keyImage,x - 13,y - 13,32,26,null);
-        }
-    }
 
     // EFFECTS: updates mainGameMap and mainInterface to g and m
-    public void displayLoadedGame(GameConsoleInterface g, GameMap m) {
+    public void displayLoadedGame(MainGameSystem g, GameMap m) {
         mainGameMap = m;
         mainInterface = g;
     }

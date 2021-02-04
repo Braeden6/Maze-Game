@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.*;
+
 public abstract class Item {
 
     protected int locationX;
@@ -79,4 +81,8 @@ public abstract class Item {
     public boolean isAbleToPickUp(int locationX, int locationY) {
         return isWithinRange(locationX,locationY,Key.REACH);
     }
+
+    // EFFECTS: draws item on graphics
+    // MODIFIES: graphics g
+    abstract public void drawItem(Graphics g);
 }

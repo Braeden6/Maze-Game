@@ -6,19 +6,17 @@ import model.Item;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class DisplayInventory extends JFrame {
 
-    private GameConsoleInterface mainInterface;
+    private MainGameSystem mainInterface;
     private Character mainCharacter;
     private JPanel inventoryPanel;
     private  JTextField input;
 
-    public DisplayInventory(GameConsoleInterface g,Character c) {
+    public DisplayInventory(MainGameSystem g, Character c) {
         super("Inventory");
         mainCharacter = c;
         mainInterface = g;

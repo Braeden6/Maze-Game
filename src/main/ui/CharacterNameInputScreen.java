@@ -6,14 +6,14 @@ import java.awt.*;
 // Adds an input screen to given JFrame and then continues game
 public class CharacterNameInputScreen {
 
-    private GameConsoleInterface mainInterface;
+    private MainGameSystem mainInterface;
 
     private JPanel enterName;
     private JTextField nameInput;
     private JButton submit;
 
 
-    public CharacterNameInputScreen(GameConsoleInterface mainInterface) {
+    public CharacterNameInputScreen(MainGameSystem mainInterface) {
         this.mainInterface = mainInterface;
         initializeFrame();
         addInputTextBox();
